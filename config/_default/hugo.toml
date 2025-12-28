@@ -1,0 +1,23 @@
+# baseURL = "fp-meetup.github.io/scala-meetup"
+baseURL = "https://scala.ecofunctor.com"
+# enableRobotsTXT = true
+title = "Scala Meetup"
+
+# depending on how you install the theme, uncomment one of the below:
+# be very careful for your own modules, specifically for go.mod files
+
+# theme = ["github.com/doofin/hugo-docs-theme"] # github repo as a module
+theme = "themes" # your local theme folder name
+
+enableGitInfo = true
+# for tina,also edit https://github.com/onweru/compose/blob/master/exampleSite/tina/collections/config.ts#L29-L35 
+
+[pagination]
+disableAliases = false
+pagerSize = 10
+path = 'page'
+
+# disableKinds = ["taxonomy"]
+
+[outputs]
+home = ["HTML", "RSS", "JSON"]

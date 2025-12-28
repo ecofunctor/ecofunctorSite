@@ -1,0 +1,14 @@
+[[main]]
+name = "Events"
+url = "docs/"
+weight = 1
+
+[[main]]
+name = "Blog"
+url = "blog/"
+weight = 2
+
+[[main]]
+name = "Resources"
+url = "res/"
+weight = 3
