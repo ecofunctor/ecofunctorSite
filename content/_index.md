@@ -1,5 +1,5 @@
 +++
-title = "Scala"
+title = "ecofunctor"
 [data]
 baseChartOn = 3
 colors = ["#627c62", "#11819b", "#ef7f1a", "#4e1154"]
@@ -27,22 +27,6 @@ Areas of interest, but not limited to:
 - Formal verification
 - Visualization, Frontend development with Scala.js
 
-## Upcoming event
-None for now.
-
-## Past meetups
-[Scala reload 2025：AI，chip and DSL](/docs/202512_ai_dsl/)(2025-12-13, Hybrid, Shenzhen)
-
-## Communities
-In China:
-- [algebraic program(中文博客)](https://www.zhihu.com/column/Hascala)
-- [Scala China](https://github.com/scalacn/scala-meetup)
-- [Functional programming China](https://github.com/fp-china/fp-china.org)
-
-Internationally:
-- [Scala Copenhagen](https://cphscala.github.io/)
-- [flatMap(Oslo)](https://2020.flatmap.no/)(Previously the largest Scala meetup)
-- [Scala blog](https://www.scala-lang.org/blog/)
 
 ## Contributors 
 See our [repo](https://github.com/fp-meetup/scala-meetup) for details.
