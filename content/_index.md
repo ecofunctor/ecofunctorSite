@@ -7,32 +7,11 @@ columnTitles = ["Section", "Status", "Author"]
 title = "Projects"
 +++
 
-The Scala platforms:
-
-{{< mermaid >}}
-graph TB
-  Scala-->Sc(Scala Jvm)
-  Scala-->ScJS(Scala.js)
-  Scala-->ScNative(Scala Native)
-{{< /mermaid >}}
-
 ## About
 
-We are a group of Scala enthusiasts focusing on functional programming and Scala. It's been 2 years since our last meetup in Beijing on November 2023. Not just Scala, the popularity of meetups has decreased both domestically and internationally in recent years. However, as the most industrialized functional programming language, Scala has found new applications in AI, chip design, and other fields beyond big data and backend development. For more details, see our previous meetups.
-
-Areas of interest, but not limited to:
-- Domain specific languages(DSLs), like Chisel
-- Compiler design(MLIR, etc)
-- Mathematics, Algebraic programming
-- Formal verification
-- Visualization, Frontend development with Scala.js
-
-
-## Contributors 
-See our [repo](https://github.com/fp-meetup/scala-meetup) for details.
-
+Ecofunctor is a research center for ecology, mathematics and computer science, and philosophy about public ownership, post-capitalism theories like Marxism, Anarchism, and Lacanian/Zizikian theory. The current capitalistic paradigm is boring and stagnant, we'd like to build something new without emphasizing profit as capitalism does, thus entering an unknown territory. 
 {{< tip >}}
-Feel free to open a [PR](https://github.com/fp-meetup/scala-meetup) to add more information about the meetup.
+Feel free to open PR to contribute to this site.
 {{< /tip >}}
 
 ## About this site

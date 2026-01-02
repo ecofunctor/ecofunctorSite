@@ -1,6 +1,7 @@
 +++
-title = "Intro"
+title = "Documents and tutorials for various topics"
 weight = 1
 +++
 
-Here's the information about the Scala meetup events, find the event details in the sidebar.
+Here's the documentation and tutorials for various topics:
+- advanced mathematics: category theory, algebra, etc.
