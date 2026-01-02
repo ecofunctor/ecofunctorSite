@@ -1,10 +1,5 @@
 +++
 title = "ecofunctor"
-[data]
-baseChartOn = 3
-colors = ["#627c62", "#11819b", "#ef7f1a", "#4e1154"]
-columnTitles = ["Section", "Status", "Author"]
-title = "Projects"
 +++
 
 ## About
@@ -15,4 +10,6 @@ Feel free to open PR to contribute to this site.
 {{< /tip >}}
 
 ## About this site
-This website is built with github actions and [Hugo](https://gohugo.io/) static site generator, It's automatically deployed to GitHub pages when changes are pushed to the main branch. The theme is a fork of [Compose](https://github.com/doofin/hugo-docs-theme)
+This website is built with [Hugo](https://gohugo.io/), and deployed via github actions to github pages.
+
+The theme is a fork of [Compose](https://github.com/doofin/hugo-docs-theme)
