@@ -1,5 +1,5 @@
 +++
-title = "Advanced Mathematics"
+title = "Mathematics"
 weight = 1
 +++
 
