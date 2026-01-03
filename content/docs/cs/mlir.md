@@ -15,4 +15,5 @@ Another crucial part of MLIR is letting users transform dialects easily.
 MLIR only provides C++ API for transforming dialects. 
 
 references:
-- [MLIR official documentation](https://mlir.llvm.org/docs/)
+- (mlir syntax)[https://mlir.llvm.org/docs/LangRef/#high-level-structure]
+- (mlir traversal api)[https://mlir.llvm.org/docs/Tutorials/UnderstandingTheIRStructure/]
