@@ -7,6 +7,16 @@ This article introduces basics of MILR(Multi-Level Intermediate Representation) 
 - MLIR syntax and dialects
 - Transforming dialects: How to write a pass
 
+Aside from that the compilers are inherently difficult to learn. We also discuss the difficulties in learning MLIR:
+- lack of systematic tutorials and documentation
+- C++ api documentation is nonexistent aside from source code
+- complex build system based on CMake and Ninja
+- TableGen, another language on top of C++
+- C++ is a complex language itself
+- lots of concepts: Operations, Regions, Blocks, Values, Types, Attributes, Dialects, Passes, Patterns, etc.
+- no clear separation between llvm, MLIR, CIRCT
+- in addition, there are many algorithms for AI optimizations, hardware synthesis, etc.
+
 ## Dialects: languages in MLIR
 **General syntax of MLIR**
 
