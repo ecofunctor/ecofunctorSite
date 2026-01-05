@@ -6,7 +6,7 @@ weight = 1
 Here's the place for advanced mathematics topics, including category theory, algebra, and more. The word "advanced" merely indicates the topics requires some mathematical maturity.
 
 ## Motivations
-For many advanced mathematical topics there's not a single best textbook to learn from, aside from a few exceptions like:
+For many advanced mathematical topics there's no the "best" textbook, aside from a few exceptions like:
 - Linear Algebra Done Right by Sheldon Axler
 - Homotopy Type Theory book
 and others(PRs are welcome)
@@ -16,13 +16,21 @@ The issues are:
 - The subjects are not standardized, requiring readers to reference many resources, like lattices theory
 - The subjects are very abstract, and the textbooks are either too abstract or not abstract enough(not teaching abstraction good enough).
 
+Thus, this series aims to **bridge the gap** between basic mathematics like linear algebra and advanced topics like category theory.
+
 ## styles
-The styles of the articles are inspired by the book "Homotopy Type Theory". Each article is structured as follows:
+For mathematical books, the complaints are they being too formal, causing readers to lose the motivations, or being too informal, causing readers to not truly understand it, since mathematics is the art of abstraction.
+
+To balance the two, we first introduce the backgrounds, then move to formal parts, where styles are inspired by the book "Homotopy Type Theory". Each article is structured as follows:
 - Motivations and backgrounds
 - Definitions
 - Theorems and proofs
 - Examples, Remarks
 
+After informal introductions, we suddenly switch to the most formal and abstract styles, to let readers compute in the abstract world. Only after full abstraction, examples are provided to deepen the understanding.
+
+
+**Formating conventions:**
 Specifically, mathematical objects like definitions, theorems are quoted as 
 > Definition ...
 > A is consisted of ...
