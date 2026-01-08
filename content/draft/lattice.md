@@ -25,7 +25,7 @@ notations for lattices:
 - $\vee$ : join (least upper bound)
 - $\wedge$ : meet (greatest lower bound)
 
-## partial orders, domains
+## Definitions of lattices/domains
 
 ### partial order
 Definition of partial order(aka po,poset)
@@ -35,8 +35,6 @@ A partial order is a set $P$ with a binary relation $\leq$ (P, $\leq$) such that
 - Transitive: $\forall a, b, c \in P, (a \leq b \land b \leq c) \implies a \leq c$
 - Antisymmetric: $\forall a, b \in P, (a \leq b \land b \leq a) \implies a = b$
 
-Note: 
-- the type of $\leq$ is $P \times P \to Bool$
 
 Definition of **complete partial order (CPO):**
 
@@ -47,7 +45,6 @@ $$
 
 where $\sqcup d_i$ is called least upper bound(lub, supremum)
 
-
 Definition of **domain**
 
 A domain is a complete partial order (CPO) with a least element (bottom element) $\bot$. Here we shall list all definitions again:
@@ -55,6 +52,12 @@ A domain is a complete partial order (CPO) with a least element (bottom element)
 - every chain in $D$ has a least upper bound (supremum), (extra law for cpo)
 - there exists a least element $\bot \in D$ such that $\forall d \in D, \bot \leq d$ (extra law for domain)
 
+**functions between partial orders:**
+- monotonic functions: $f: D_1 \to D_2$ such that $\forall x, y \in D_1, x \leq y \implies f(x) \leq f(y)$
+- continuous functions for cpos: $f: D_1 \to D_2$ such that $\forall \text{chains } d_0 \leq d_1 \leq d_2 \leq ... \in D_1$, $f(\sqcup d_i) = \sqcup f(d_i)$
+
+Note:
+- Every continuous function is monotonic, but not vice versa.
 
 ### lattice
 Definition of **lattice:**
@@ -75,75 +78,18 @@ In contrast to complete partial orders vs partial orders, complete lattices requ
 - while CPO only requires the existence of supremum for every chain.
 
 
-### Example poset and cpo
-The power set:
--  $(P(S), \subseteq)$ is a partial order $(D, \leq)$.
-- it is also a cpo since $(P(S), \subseteq, \cup)$ is a cpo $(D, \leq, \sqcup)$ 
-- it is also a domain since $\emptyset$ is the bottom $\bot$.
+Below topics about frames are TBD.
+Definition of frame. A frame is a complete lattice that satisfies the infinite distributive law:
+$$
+\forall x \in L, \forall S \subseteq L, \quad x \wedge \left( \bigvee S \right) = \bigvee \{ x \wedge s \mid s \in S \}
+$$
 
-The product domain from $D_1$ and $D_2$:
-- $\leq$ is defined pointwise: $(d_1, d_2) \leq (d_1', d_2') \iff d_1 \leq d_1' \land d_2 \leq d_2'$ , so $(D_1 \times D_2, \leq)$ is a partial order.
-- $\sqcup$ : $(d_1, d_2) \sqcup (d_1', d_2') = (d_1 \sqcup d_1', d_2 \sqcup d_2')$ 
-
-
-The function space $D_1 \to D_2$ where $D_1, D_2$ are both cpos:
-- $\leq$ is defined pointwise: $f \leq g \iff \forall x \in D_1, f(x) \leq g(x)$ , so $(D_1 \to D_2, \leq)$ is a partial order.
-- $\sqcup$ : $(\sqcup_i f_i)(x) = \sqcup_i f_i(x)$ , so $(D_1 \to D_2, \leq, \sqcup)$ is a cpo.
-- if $D_1, D_2$ are both domains, then $(D_1 \to D_2, \leq, \sqcup, \bot)$ is also a domain
-
-
-The evaluation map $eval: (D_1 \to D_2) \times D_1 \to D_2$ defined as $eval(f, x) = f(x)$ is continuous on domains $(D_1 \to D_2)$ and $D_1$.
-
-### functions: monotone and continuous
-functions between partial orders and lattices:
-- monotonic functions: $f: D_1 \to D_2$ such that $\forall x, y \in D_1, x \leq y \implies f(x) \leq f(y)$
-- continuous functions for cpos: $f: D_1 \to D_2$ such that $\forall \text{chains } d_0 \leq d_1 \leq d_2 \leq ... \in D_1$, $f(\sqcup d_i) = \sqcup f(d_i)$
-- strict functions: $f: D_1 \to D_2$ such that $f(\bot_{D_1}) = \bot_{D_2}$
-
-Note:
-- Every continuous function is monotonic, but not vice versa.
-
-
-Examples of monotonic functions:
-
-Let $(P{a, b, c}, \leq)$ and $(P{d, e}, \leq)$ be two posets, then the function $f: P{a, b, c} \to P{d, e}$ can be defined in multiple ways, some are continuous and some are not. 
-
-Let $C$ be cpo, consider the function $f: (C \to C) \to (C \to C)$ 
-- $f$ defined as $f(g) = g $ is 
-
-### fixed point theorem
-First, we define fixed points and pre-fixed points.
-
-Let $(P, \leq)$ be a poset, and $f: P \to P$ be a monotonic function:
-- **fixed point** A point $x \in P$ is called a fixed point of $f$ if $f(x) = x$.
-- **pre-fixed point** An element $x \in P$ is called a pre-fixed point of $f$ if $f(x) \leq x$.
-- **least fixed point** The least fixed point of $f$ is the smallest element among all fixed points of $f$, satisfying $f(lfp(f)) \leq lfp(f)$ and $\forall x \in P, f(x) = x \implies lfp(f) \leq x$.
-
-Now we state some important theorems about fixed points in posets and domains.
-
-**Theorem: least fixed point for monotonic functions**
-
-Statement: 
-- Let $(D, \leq)$ be a poset and 
-- $f: D \to D$ be a function and
-- $lfp(f)$ be the least pre-fixed point of $f$
-
-Then if $f$ is monotonic, then $lfp(f)$ is a fixed point of $f$ so $lfp(f) = fix(f)$.
-
-
-**Theorem: Tarski's fixed point theorem**
-
-Statement:
-- Let $(D, \leq, \sqcup, \bot)$ be a domain
-- $f: D \to D$ be a continuous function
-
-Then:
-- $lfp(f)$ of $f$ is constructed as $lfp(f) = \sqcup_{n \geq 0} f^n(\bot)$
-- and $lfp(f) = fix(f) $
-
-
-Application:
-Tarski's fixed point theorem is widely used in denotational semantics of programming languages to define the semantics of recursive functions, since the semantics of recursive functions can be defined as the least fixed point of some continuous function on a suitable domain.
+functions between frames are called frame homomorphisms, which preserve finite meets and arbitrary joins:
+$$
+f: L_1 \to L_2 \\\\
+\forall S \subseteq L_1, \forall x, y \in L_1 \\\\
+f\left( \bigvee S \right) = \bigvee f(S) \text{ , } f(x \wedge y) = f(x) \wedge f(y)
+$$
 
 ## Adjunction between lattice and topology
 **Scott topology**
@@ -166,9 +112,3 @@ The category of topological spaces:
 > arrow: continuous functions
 
 The functor from lattices to topological spaces:
-
-
-References:
-- Lectures on Domains and Denotational Semantics, Glynn Winskel (main reference)
-- The Formal Semantics of Programming Languages: An Introduction, Glynn Winskel
-- Semantics with Applications: An Appetizer, Hanne Riis Nielson and Flemming Nielson

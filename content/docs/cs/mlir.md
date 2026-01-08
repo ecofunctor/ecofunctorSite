@@ -119,45 +119,12 @@ cmake -G Ninja llvm/llvm -B build \
 ninja -C build bin/circt-opt
 ```
 
-A more complete example from the CIRCT project:
-```cpp
-#include <queue>
-
-#include "circt/Dialect/Verif/VerifOps.h"
-#include "circt/Dialect/Verif/VerifPasses.h"
-#include "mlir/Analysis/TopologicalSortUtils.h"
-#include "mlir/IR/IRMapping.h"
-
-using namespace circt;
-
-namespace circt {
-namespace verif {
-#define GEN_PASS_DEF_LOWERCONTRACTSPASS
-#include "circt/Dialect/Verif/Passes.h.inc"
-} // namespace verif
-} // namespace circt
-
-using namespace mlir;
-using namespace verif;
-using namespace hw;
-
-namespace {
-struct LowerContractsPass
-    : verif::impl::LowerContractsPassBase<LowerContractsPass> {
-  void runOnOperation() override;
-};
-void LowerContractsPass::runOnOperation() {
-  getOperation().walk([&](ContractOp contractOp) {
-    // Transform the ContractOp here
-    // For example, we can replace it with a different operation
-    OpBuilder builder(contractOp);
-    auto newOp = builder.create<SomeOtherOp>(contractOp.getLoc(), ...);
-    contractOp.replaceAllUsesWith(newOp);
-    contractOp.erase();
-  });
-}
-} // end anonymous namespace
-```
+To summarize the steps:
+- Define the pass in TableGen (.td file).
+- Generate headers using TableGen.
+- Implement the pass logic in a C++ (.cpp file).
+- Register the pass in the build system (CMakeLists.txt).
+- Build the project to compile the new pass.
 
 ### Scala API
 There's some experimental Scala API for MLIR:
