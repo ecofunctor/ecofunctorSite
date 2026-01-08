@@ -8,7 +8,7 @@ Basic order theory doesn't require much background, but the topics in this artic
 
 Caution: There are many closely related concepts in this field, like lattices, complete lattices, frames, locales, domains, etc, each having slightly different definitions and properties, which may be confusing. 
 
-## Definitions of lattices
+## Definitions of lattices/domains
 Definition of partial order:
 $$
 \text{A partial order is a set } P \text{ with a binary relation } \leq \text{ such that:} 
@@ -19,6 +19,16 @@ $$
 & \text{3. Transitive: } \forall a, b, c \in P, (a \leq b \land b \leq c) \implies a \leq c.
 \end{align*}
 $$
+
+Definition of **complete partial order (CPO):**
+Complete partial order(cpo) may have different names in different references:
+- domain
+
+A complete partial order is a partial order $(D, \leq)$ such that :
+- $\forall \text{chains } d_0 \leq d_1 \leq d_2 \leq ... \in D$,
+- a least upper bound (supremum) $\cup d_i$ in $D$ exists.
+- In summary, every chain has a supremum : $C: Chain \implies \exists (\cup C \in D)$.
+
 
 Definition of frame. A frame is a complete lattice that satisfies the infinite distributive law:
 $$
@@ -33,6 +43,14 @@ f\left( \bigvee S \right) = \bigvee f(S) \text{ , } f(x \wedge y) = f(x) \wedge 
 $$
 
 ## Adjunction between lattice and topology
+**Scott topology**
+First, we define Scott open sets on a CPO $(D, \leq)$. A subset $U \subseteq D$ is open iff:
+- $\forall x, y \in D, x \in U \land x \leq y \implies y \in U$ (upper set)
+- $\forall \text{chains } d_0 \leq d_1 \leq d_2 \leq ... \in D, \cup d_i \in U \implies \exists i, d_i \in U$ (inaccessible by directed suprema)
+
+(ref: Exercise 8.4 in SemPL)
+
+
 Let us consider a topology $(X, T )$ and its lattice $L(X)$ of open sets, with set inclusion $\subseteq$ as the partial order $\leq$. The $L(X)$ is a functor from the category of topological spaces to the category of frames. The functor is also denoted as $\Omega$.
 
 

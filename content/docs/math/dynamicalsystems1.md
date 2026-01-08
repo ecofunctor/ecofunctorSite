@@ -4,7 +4,7 @@ weight = 3
 +++
 ## Introduction
 
-This article refines the post "Complex systems, Chaos and ecosystem part 1: the defiance to reductionism"
+This article refines the post "Complex systems, Chaos and ecosystem part 1: the defiance to reductionism". In contrast to other articles in the math section, this article is more philosophical and conceptual, rather than focusing on rigorous mathematical definitions and proofs. 
 
 Reductionism, a philosophy that seeks to handle complexity by breaking into parts, serves as the corner stone for industrial revolution and contemporary science. This top-down approach is also quite compatible with the social hierarchy that rich people have more power and control over the society, as the conerstone of modern neoliberal capitalism.
 
