@@ -8,7 +8,8 @@ The theory about ordered structures, such as lattices and domains, is profoundly
 - denotational semantics of programming languages
 - properties of topology and real numbers
 Compared to other algebras, such as groups and rings, ordered structures are more complicated, since the order relation is quite different from other algebraic operations like addition, multiplication, and real analysis often studies inequalities which is ordered structures. More specifically, the questions are:
-- Is $D \equiv D \to D$ solvable for some domain $D$?
+- Is $D \cong D \to D$ solvable for some domain $D$?
+- type issues for $x \to x(x)$ in untyped lambda calculus
 - the relation between continuous functions and computability
 
 Topics included:
@@ -35,7 +36,7 @@ notations for lattices:
 - $\vee$ : join (least upper bound)
 - $\wedge$ : meet (greatest lower bound)
 
-## partial orders, domains
+## the ordered structures
 
 ### partial order
 Definition of partial order(aka po,poset)
@@ -178,9 +179,10 @@ The category of topological spaces:
 The functor from lattices to topological spaces:
 
 
-References:
+## References
 - Lectures on Domains and Denotational Semantics, Glynn Winskel (main reference)
 - SemPL The Formal Semantics of Programming Languages: An Introduction, Glynn Winskel
 - Semantics with Applications: An Appetizer, Hanne Riis Nielson and Flemming Nielson
-- The lattice chapter in "Handbook of Logic in Computer Science, Volume 3" by Abramsky and Jung
+- Domain theory by Abramsky and Jung (From the book "Handbook of Logic in Computer Science", Volume 3)
 - Introduction to Lattices and Order
+- A lambda Calculus for Real Analysis, Paul Taylor
