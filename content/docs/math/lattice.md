@@ -7,9 +7,19 @@ weight = 2
 The theory about ordered structures, such as lattices and domains, is profoundly underlooked, despite its importance in various fields:
 - denotational semantics of programming languages
 - properties of topology and real numbers
-Compared to other algebras, such as groups and rings, ordered structures are more complicated, since the order relation is quite different from other algebraic operations like addition, multiplication, and real analysis often studies inequalities which is ordered structures.
+Compared to other algebras, such as groups and rings, ordered structures are more complicated, since the order relation is quite different from other algebraic operations like addition, multiplication, and real analysis often studies inequalities which is ordered structures. More specifically, the questions are:
+- Is $D \equiv D \to D$ solvable for some domain $D$?
+- the relation between continuous functions and computability
 
-Basic order theory doesn't require much background, but the topics in this article require substantial familiarity with category theory(especially adjunctions), since category theory is required in the very first chapters of the standard references.
+Topics included:
+- definitions of partial orders, lattices, domains
+- the functions between these structures
+- fixed point theorems
+- the relation to topology, like Scott topology
+- adjunction with topological spaces
+- applications in semantics of programming languages
+
+Basic order theory doesn't require much background, but the topics in this article require substantial familiarity with category theory(especially adjunctions).
 
 Caution: There are many closely related concepts in this field, like lattices, domains, frames, locales, etc, each having slightly different definitions and properties, which may be confusing. 
 
@@ -170,5 +180,7 @@ The functor from lattices to topological spaces:
 
 References:
 - Lectures on Domains and Denotational Semantics, Glynn Winskel (main reference)
-- The Formal Semantics of Programming Languages: An Introduction, Glynn Winskel
+- SemPL The Formal Semantics of Programming Languages: An Introduction, Glynn Winskel
 - Semantics with Applications: An Appetizer, Hanne Riis Nielson and Flemming Nielson
+- The lattice chapter in "Handbook of Logic in Computer Science, Volume 3" by Abramsky and Jung
+- Introduction to Lattices and Order

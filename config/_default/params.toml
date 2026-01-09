@@ -6,8 +6,8 @@ uniqueHomePage = true # change to false to add sidebar to homepage
 
 # Site logo at navbar
 [logo]
-darkMode = "https://github.com/user-attachments/assets/3cc0dbfd-1e56-4b85-9fbe-ca440c36ed81"
-lightMode = "https://github.com/user-attachments/assets/3cc0dbfd-1e56-4b85-9fbe-ca440c36ed81"
+darkMode = "images/logo.png"
+lightMode = "images/logo.png"
 
 [source] # source code link at navbar
 iconDark = "/images/GitHubMarkDark.svg"

@@ -2,10 +2,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {{- hugo.Generator }}
 {{- $iconsPath := "favicons/" }}
-<link rel="icon" type="image/png" sizes="16x16" href='{{ absURL (printf "%sfavicon-16x16.png" $iconsPath) }}'>
+<link rel="icon" type="image/png" sizes="16x16" href='{{ absURL (printf "%sfavicon.png" $iconsPath) }}'>
 <link rel="manifest" href='{{ absURL (printf "%ssite.webmanifest" $iconsPath) }}'>
 <link rel="mask-icon" href='{{ absURL (printf "%ssafari-pinned-tab.svg" $iconsPath) }}' color="#004750">
-<link rel="shortcut icon" href='{{ absURL (printf "%sfavicon.ico" $iconsPath) }}'>
+<link rel="shortcut icon" href='{{ absURL (printf "%sfavicon.png" $iconsPath) }}'>
 <meta name="msapplication-config" content='{{ absURL (printf "%sbrowserconfig.xml" $iconsPath) }}'>
 {{- $t := .Title }}
 {{- $s := site.Title }}
