@@ -85,7 +85,12 @@ In contrast to complete partial orders vs partial orders, complete lattices requ
 - the existence of supremum for every subset.
 - while CPO only requires the existence of supremum for every chain.
 
-
+### Terminologies
+Some important terminologies:
+- upper set : A subset $U \subseteq D$ of a poset $(D, \leq)$ is called an upper set if $\forall x, y \in D, x \in U \land x \leq y \implies y \in U$. We also denote it as $\uparrow x$ for some $x \in D$.
+- lower set : A subset $L \subseteq D$ on the opposite of upper set, denoted as $\downarrow x$ for some $x \in D$.
+- upper bound : An element $u \in D$ is called an upper bound of a subset $S \subseteq D$ if $\forall s \in S, s \leq u$.
+- lower bound : the opposite of upper bound.
 ### Example poset and cpo
 The power set:
 -  $(P(S), \subseteq)$ is a partial order $(D, \leq)$.
