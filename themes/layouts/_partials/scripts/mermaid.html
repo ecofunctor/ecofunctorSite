@@ -1,4 +1,3 @@
-
 {{ if in .Content "mermaid" }}
 <script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -11,8 +10,8 @@
 
   function initializeMermaid(mode) {
     mermaid.initialize(
-    { startOnLoad: true, theme: getTheme(mode) }
-  );
+      { startOnLoad: true, theme: getTheme(mode) }
+    );
   }
 
   initializeMermaid(key);
