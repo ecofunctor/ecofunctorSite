@@ -3,9 +3,16 @@ title = "category theory"
 weight = 1
 +++
 
-This document explores category theory from a mathematical perspective, while providing examples in computer science. Since category theory is highly abstract, we aim not to avoid abstraction, but to present it in a clear manner with precise notions(might be verbose at times).
+This article explores category theory from a mathematical perspective, while providing examples in computer science. Since category theory is highly abstract, we aim not to avoid abstraction, but to present it in a clear manner with precise notions(might be verbose at times). Features of this tutorial:
+- mathematical perspective, but people from other backgrounds can also follow
+- jump to adjunctions quickly
+- delay universal properties and yoneda lemma after monads,compare to traditional order
+- use common notations
+- we skip basic definitions like categories and functors, where current textbooks suffice
 
-In contrast, "Category Theory for Programmers" posts by Bartosz Milewski or "Category Theory for computer scientists" are from computer science perspective, and Steven Awodey's "Category Theory" book is more of logic theory taste. This article is purely **mathematical**, and assumes some mathematical maturity like linear algebra and abstract algebra(not used directly, but the way of thinking matters).
+In contrast, "Category Theory for Programmers" posts by Bartosz Milewski or "Category Theory for computer scientists" are from computer science perspective, and Steven Awodey's "Category Theory" book is more of logic theory taste. This article is purely **mathematical**, meaning that the definitions and theorems introduced as mathematical objects, without much analogy to logic or programming.
+
+We assume mathematical maturity in linear algebra and abstract algebra(not used directly, but the way of thinking matters).
 
 This article covers standard topics in category theory:
 - Definitions of categories, functors, and natural transformations
@@ -16,6 +23,7 @@ This article covers standard topics in category theory:
 For applications:
 - Correspondence between category theory and Haskell
 - Monads for splitting construction and execution
+
 ## Preliminaries
 
 Recommended textbooks, from mathematical perspective:
@@ -54,24 +62,6 @@ The naturality condition requires that for every morphism $f: c_1 \to c_2$ in ca
 
 This means that applying $F$ to $f$ and then $\eta_{c_2}$ is the same as applying $\eta_{c_1}$ and then $G$ to $f$:
 
-## Theorems
-Here we give some important theorems in category theory as "abstract nonsense".
-
-### Yoneda lemma
-In the same vein as representation theorems in mathematics, The Yoneda lemma relates between objects in a category and the functors defined on that category. 
-After introducing the representable functors, we want to know how to define a natural transformation $\mapsto_{nat} $ between a representable functor and an arbitrary functor, namely:
-$$
-Hom_C(c, -) \mapsto_{nat} F
-$$
-where $c \in C$ is a fixed object, and $F: C \to Set$ is an arbitrary functor. Before thinking about the general $\mapsto_{nat}$, we first consider a natural isomorphism $\cong_{nat}$.
-
-
-
-**Theorem (Yoneda lemma):**
-$$
-Nat(Hom_C(c, -),F) \cong_{bij} F(c)
-$$
-That is, there's a bijection $\cong_{bij}$ between the set of natural transformations $Nat(Hom_C(c, -),F)$ and the set $F(c)$.
 
 ## Adjunctions
 An adjunction is a pair of functors that stand in a particular relationship to each other. Specifically, a functor $F: C \to D$ is left adjoint to a functor $G: D \to C$ if there is a natural isomorphism between the hom-sets:
@@ -92,6 +82,7 @@ A monad can be constructed from an adjunction. Given an adjunction $F \dashv G$,
 $$
 T = G \circ F
 $$
+
 ## Universal properties
 Universal properties are a way to define objects in terms of their relationships to other objects.
 
@@ -102,7 +93,7 @@ An object $i\in C$(category $C$) is called an initial object if(several equivale
 - $\forall x \in C, Hom_C(i, x)$ is a singleton set.
 - The functor $Hom_C(i, -): C \to Set$ is naturally isomorphic to the constant functor that maps every object to a singleton set.
 
-**Representation:**
+### Representable functors
 The concept of representation is prevalent in mathematics, we have:
 - Riesz representation theorem in functional analysis, stating that continuous linear functionals on a Hilbert space can be represented as an inner product with a vector
 - Caley's theorem in group theory, stating that every group is isomorphic to the permutation group.
@@ -115,6 +106,26 @@ Similarly, in category theory, a representable functor can be represented by the
 
 Examples:
 - In the category of sets, the empty set $\emptyset$ is an initial object, since there is exactly one function from $\emptyset$ to any set $A$ (the empty function).
+
+## Theorems
+Here we give some important theorems in category theory as "abstract nonsense".
+
+### Yoneda lemma
+In the same vein as representation theorems in mathematics, The Yoneda lemma relates between objects in a category and the functors defined on that category. 
+After introducing the representable functors, we want to know how to define a natural transformation $\mapsto_{nat} $ between a representable functor and an arbitrary functor, namely:
+$$
+Hom_C(c, -) \mapsto_{nat} F
+$$
+where $c \in C$ is a fixed object, and $F: C \to Set$ is an arbitrary functor. Before thinking about the general $\mapsto_{nat}$, we first consider a natural isomorphism $\cong_{nat}$.
+
+
+
+**Theorem (Yoneda lemma):**
+$$
+Nat(Hom_C(c, -),F) \cong_{bij} F(c)
+$$
+That is, there's a bijection $\cong_{bij}$ between the set of natural transformations $Nat(Hom_C(c, -),F)$ and the set $F(c)$.
+
 ## Kan extensions
 
 ## Notions 
