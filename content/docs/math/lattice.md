@@ -4,15 +4,18 @@ weight = 2
 +++
 
 ## Introduction
-The theory about ordered structures, such as lattices and domains, is profoundly underlooked, despite its importance in various fields:
+Compared to other algebras, such as groups and rings, ordered structures are more complicated, since the order relation is quite different from other algebraic operations like addition, multiplication, and real analysis often studies inequalities which is ordered structures. So this field is actually underlooked, despite its importance in various fields:
 - denotational semantics of programming languages
 - properties of topology and real numbers
-Compared to other algebras, such as groups and rings, ordered structures are more complicated, since the order relation is quite different from other algebraic operations like addition, multiplication, and real analysis often studies inequalities which is ordered structures. More specifically, the questions are:
+
+
+More specifically, some important questions include:
 - Is $D \cong D \to D$ solvable for some domain $D$?
 - type issues for $x \to x(x)$ in untyped lambda calculus
 - the relation between continuous functions and computability
 
-Topics included:
+
+We aim to cover the following topics:
 - definitions of partial orders, lattices, domains
 - the functions between these structures
 - fixed point theorems
@@ -20,15 +23,15 @@ Topics included:
 - adjunction with topological spaces
 - applications in semantics of programming languages
 
-Basic order theory doesn't require much background, but the topics in this article require substantial familiarity with category theory(especially adjunctions).
+Basic order theory doesn't require much background, but the topics about topology and adjunctions require maturity in general topology and category theory.
 
-Caution: There are many closely related concepts in this field, like lattices, domains, frames, locales, etc, each having slightly different definitions and properties, which may be confusing. 
+Note: There are many closely related concepts in this field, like lattices, domains, frames, locales, etc, each having slightly different definitions and properties, which may be confusing. 
 
 we focus mainly on lattices and domains, and frames are still TBD.
 
 notations for partial orders and domains:
-- $\leq$ : partial order relation
-- $\sqcup$ : least upper bound (supremum)
+- $\leq : D \times D \to Bool$ : partial order relation. 
+- $\sqcup : D \times D \to D$ : least upper bound (supremum). 
 - $\sqcap$ : greatest lower bound (infimum)
 - $\bot$ : least element (bottom element)
 
@@ -37,21 +40,18 @@ notations for lattices:
 - $\wedge$ : meet (greatest lower bound)
 
 ## the ordered structures
+Now we give the definitions of various ordered structures from partial orders to lattices.
 
 ### partial order
-Definition of partial order(aka po,poset)
 
-A partial order is a set $P$ with a binary relation $\leq$ (P, $\leq$) such that:
+**A partial order** is a set $P$ with a binary relation $\leq$ (P, $\leq$) such that:
 - Reflexive: $\forall a \in P, a \leq a$
 - Transitive: $\forall a, b, c \in P, (a \leq b \land b \leq c) \implies a \leq c$
 - Antisymmetric: $\forall a, b \in P, (a \leq b \land b \leq a) \implies a = b$
 
-Note: 
-- the type of $\leq$ is $P \times P \to Bool$
 
-Definition of **complete partial order (CPO):**
 
-A complete partial order is a partial order $(D, \leq)$ such that every chain has a supremum:
+A **complete partial order (CPO):** is a partial order $(D, \leq)$ such that every chain has a supremum:
 $$
 \forall d_0 \leq d_1 \leq d_2 \leq ...\implies\exists \sqcup d_i \in D
 $$
@@ -59,9 +59,8 @@ $$
 where $\sqcup d_i$ is called least upper bound(lub, supremum)
 
 
-Definition of **domain**
 
-A domain is a complete partial order (CPO) with a least element (bottom element) $\bot$. Here we shall list all definitions again:
+A **domain** is a complete partial order (CPO) with a least element (bottom element) $\bot$. Here we shall list all definitions again:
 - $(D, \leq)$ is a partial order
 - every chain in $D$ has a least upper bound (supremum), (extra law for cpo)
 - there exists a least element $\bot \in D$ such that $\forall d \in D, \bot \leq d$ (extra law for domain)
