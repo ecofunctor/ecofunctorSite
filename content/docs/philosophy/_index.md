@@ -9,8 +9,12 @@ The documentation about philosophy topics:
 - Schopenhauer's philosophy on the will
 
 ## styles
-Philosophical writings often vary in style, but none are easy readings, not only because of the depth and abstractness, but also the length of the logical chains based on often vague definitions and countless assumptions.
+Philosophical writings often vary in style, but none are easy readings, not only because of the depth and abstractness, but also the length of the logical chains based on often vague definitions and countless assumptions. We shall use one of the structures below:
 
+The causal style:
+- 
+
+The mathematical style.
 Perhaps, we shall write in a style similar to mathematical series, but flipping the order of each part. The experimental structure is as follows:
 - Definitions of the concepts or objects
 - Theorems,proofs and logical deductions
