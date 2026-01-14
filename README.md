@@ -10,4 +10,4 @@ This project uses [Hugo](https://gohugo.io/) as a static site generator. To buil
 hugo server --themesDir .
 ```
 
-The content like docs and blog posts are in `content/` folder.
+The content like docs and blog posts are in `content/` folder. Github actions are used to deploy the site automatically to github pages.
