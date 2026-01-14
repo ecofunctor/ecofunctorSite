@@ -19,12 +19,15 @@ The purpose of this project could be anything but profit(setting the profitabili
 - decentralized, everyone shall took part, and even start their own similar projects
 
 
+### Members
+It's freely open for anyone to join, and currently the members are:
+- [Eason Du](https://www.linkedin.com/in/eason-du-03543279/)
+
+{{< tip >}}
+Feel free to open PR to contribute to this site.
+{{< /tip >}}
 
 ## About this site
 This website is built with [Hugo](https://gohugo.io/), and deployed via github actions to github pages.
 
 The theme is a fork of [Compose](https://github.com/doofin/hugo-docs-theme), with customizations like mathjax support.
-
-{{< tip >}}
-Feel free to open PR to contribute to this site.
-{{< /tip >}}

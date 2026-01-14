@@ -13,17 +13,19 @@ Thus, everything is relative, and absolute rationality is just a reductionist il
 ## Preliminary
 
 ### Logic vs. Dialectics: just different level
+Irrationalism uses dialectics sometimes as its language system, we shall hereby briefly introduce.
+
 Hegel's dialectics is a language for describing dynamical systems, where everything is in constant flux and change. The dialectical process involves the interaction of opposing forces, leading to the emergence of new forms and structures. This process is characterized by contradictions, negations, and syntheses, which drive the evolution of ideas and phenomena.
 
-In contrast to the traditional logic based on classical logical formulas, the language of dialectics invalidates:
+Dialectics seems to invalidate some most fundamental laws of classical logic, such as:
 - the law of identity: A is A, which assumes that things have fixed and unchanging identities.
 - the law of non-contradiction: A cannot be both A and not A, which assumes that things are binary and mutually exclusive.
 - and some other laws.
 
 On the surface, dialectics may seem to violate basic logical principles. However, it is important to note that dialectics operates at a different level of abstraction than classical logic. Dialectics is concerned with the dynamic and relational aspects of reality, while classical logic is concerned with static aspects. Thus , the arguments between dialectics advocates like Hegel, Marx, Engels, and their critics like Karl Popper,often stem from misunderstandings about the different levels of abstraction involved.
 
-Personally, I disagree with both sides, and only use mathematical structures instead of specific language system from philosophy. So the correspondence should be:
-- Logic: static structures, like sets, categories, etc.
+Personally, I disagree with both sides, and shall use mathematical structures instead of specific language system from philosophy. So each side has its own merits on different levels:
+- Logic: static structures, like sets, functions, categories, etc.
 - Dialectics: dynamical systems, terms like fixed points, attractors, etc. shall be used.
 
 
