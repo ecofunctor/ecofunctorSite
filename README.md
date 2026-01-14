@@ -9,3 +9,5 @@ This project uses [Hugo](https://gohugo.io/) as a static site generator. To buil
 ```bash
 hugo server --themesDir .
 ```
+
+The content like docs and blog posts are in `content/` folder.
