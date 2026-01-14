@@ -1,4 +1,4 @@
 +++
 title = "Daoism: ancient self-organizing"
-weight = 1
+weight = 3
 +++

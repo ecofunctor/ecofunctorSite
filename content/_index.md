@@ -6,6 +6,10 @@ title = "ecofunctor"
 
 Ecofunctor is a research project for ecology, mathematics and computer science, and philosophy about public ownership, post-capitalism theories like Marxism, Anarchism, and Lacanian/Zizikian theory. The current capitalistic paradigm is boring and stagnant, we'd like to build something new without emphasizing profit as capitalism does, thus entering an unknown territory. 
 
+Currently the project is focusing on bringing the gap between normal audience and difficult topics in several fields, like abstract mathematics, computer science, and philosophy, with a wiki website for easy access and reading, and the mindset of mathematical rigor and clarity shall be adopted.
+
+Please check [docs](./docs/) for several articles on philosophy and mathematics.
+
 
 The purpose of this project could be anything but profit(setting the profitability as goal renders the project unnecessary):
 - improvement of critical thinking via Lacanian/Zizikian/Schopenhauer theories, together with abstract mathematics, to lift analytical skills to a unseen height
@@ -15,13 +19,15 @@ The purpose of this project could be anything but profit(setting the profitabili
 - decentralized, everyone shall took part, and even start their own similar projects
 
 
-Currently the project is focusing on bringing the gap between normal audience and difficult topics in several fields, like abstract mathematics, computer science, and philosophy, by providing a wiki-like website for easy access and reading, with the mindset of mathematical rigor and clarity.
+### Members
+It's freely open for anyone to join, and currently the members are:
+- [Eason Du](https://www.linkedin.com/in/eason-du-03543279/)
+
+{{< tip >}}
+Feel free to open PR to contribute to this site.
+{{< /tip >}}
 
 ## About this site
 This website is built with [Hugo](https://gohugo.io/), and deployed via github actions to github pages.
 
 The theme is a fork of [Compose](https://github.com/doofin/hugo-docs-theme), with customizations like mathjax support.
-
-{{< tip >}}
-Feel free to open PR to contribute to this site.
-{{< /tip >}}
