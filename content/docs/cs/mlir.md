@@ -154,9 +154,10 @@ val AddIFold = pattern {
 ```
 
 references：
-- (Scair tutorial)[https://edin-dal.github.io/scair/docs/transformations.html]
+- [Scair tutorial](https://edin-dal.github.io/scair/docs/transformations.html)
+- [chisel c api](https://github.com/chipsalliance/chisel/pull/5104)
 
 ## References and further reading
 references:
-- (mlir syntax)[https://mlir.llvm.org/docs/LangRef/#high-level-structure]
-- (mlir traversal api)[https://mlir.llvm.org/docs/Tutorials/UnderstandingTheIRStructure/]
+- [mlir syntax](https://mlir.llvm.org/docs/LangRef/#high-level-structure)
+- [mlir traversal api](https://mlir.llvm.org/docs/Tutorials/UnderstandingTheIRStructure/)
