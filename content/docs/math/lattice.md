@@ -183,6 +183,54 @@ The category of topological spaces:
 The functor from lattices to topological spaces:
 
 
+## Applications: program analysis
+program analysis is a formal method to analyze programs without executing them. It can be used to approximate the behavior of programs.The domain in program analysis represent the info of a program at it's execution point(in program graph or flow graph). 
+
+we start with some notations:
+- $WholeProgram$ : the whole program
+- $progGraph(Prog)$ or $flowGraph(Prog)$, etc, denotes the program graph or flow graph of the whole program. 
+- $Prog$ : the program fragment, like statements, expressions, etc.
+- $A$ : the abstract domain, representing the properties we want to analyze
+- $Result = Var \to A$ : the result of program analysis, mapping variable names to values in the abstract domain $A$.
+
+**1.without abstract interpretation:**
+
+The transfer function is defined as $tranA: Prog \to A \to A$. Given a whole program as $progGraph(Prog)$ or $flowGraph(Prog)$, we run a algorithm(worklist algorithm, etc) to apply the transfer function on each program point until reaching a fixed point. The termination is guaranteed by the ascending chain condition(ACC) on the abstract domain $A$. Each transformation is summarized as:
+- $WholeProgram \to progGraph(Prog)$ : an algorithm to convert the whole program to a program graph or flow graph.
+- $progGraph(Prog) \to Result$ : the worklist algorithm ($Wk: progGraph(Prog) \to (Prog \to A \to A) \to Result$) apply the transfer function $tranA: Prog \to A \to A$ on $progGraph(Prog)$ until reaching a fixed point.
+
+The algorithm is given according to the fixed point theorem on domains, where the fixed point is reached by applying the transfer function $tranA(p, a)$ on  abstract domain $a$ iteratively until reaching a fixed point.
+
+For reference, we also attach the definition of monotone framework here(from ProgAA,p53):
+**2.abstract interpretation:**
+The advantage of abstract interpretation is that the concrete transfer function $tran$ are defined once for all analyses, and we only need to define the abstraction and concretization functions $\alpha$ and $\gamma$ for different analyses, since the bulk of the work is to define $tran$.
+
+The concrete semantics(collect semantics) domain $C$
+represents the most precise state of the program, while the abstract domain $A$ represents an approximation of the concrete domain and the specific properties we want to analyze.
+
+extra further notations:
+- $C$ : the concrete domain, representing the semantics of the program
+- $\alpha: C \to A$ : abstraction function, mapping concrete states to abstract states
+- $\gamma: A \to C$ : concretization function, mapping abstract states to concrete
+- proof that $\alpha$ and $\gamma$ form a Galois connection: $\forall c \in C, a \in A, \alpha(c) \leq a \iff c \leq \gamma(a)$, aka adjunction
+- $tran: Prog \to C \to C $ : the transfer function, given a program fragment and domain, returns the new domain.
+
+
+The goal of program analysis is to calculate the values of the abstract domain $A$ at each program point, given the information above. Depending on whether abstract interpretation is used, there are two approaches:
+- with abstract interpretation: we first define the abstraction and concretization functions $\alpha$ and $\gamma$, then we define the concrete transfer function $tran: Prog \to C \to C$
+- derive the abstract transfer function $tranA: Prog \to A \to A$ as $tranA(p, a) = \alpha(tran(p, \gamma(a)))$, defined via composition with $\alpha$, $\gamma$ and $tran$.
+- now we have $tranA: Prog \to A \to A$, and same as before.
+
+### common abstract domains
+we summarize some common domains in a table:
+| Analysis             | Lattice/Domain     | Description                                                          |
+| -------------------- | ------------------ | -------------------------------------------------------------------- |
+| Reaching definitions | $Var \to Pow(Q*Q)$ | For each variable, the set of program points where it may be defined |
+
+
+
+The summary from ProgA, p70 is attached here for reference:
+
 ## References
 - Lectures on Domains and Denotational Semantics, Glynn Winskel (main reference)
 - SemPL The Formal Semantics of Programming Languages: An Introduction, Glynn Winskel
@@ -190,3 +238,5 @@ The functor from lattices to topological spaces:
 - Domain theory by Abramsky and Jung (From the book "Handbook of Logic in Computer Science", Volume 3)
 - Introduction to Lattices and Order
 - A lambda Calculus for Real Analysis, Paul Taylor
+- ProgAA, Program Analysis an Appetizer, Flemming Nielson
+- ProgA, Principles of Program Analysis, Flemming Nielson
