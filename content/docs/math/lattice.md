@@ -202,6 +202,10 @@ The transfer function is defined as $tranA: Prog \to A \to A$. Given a whole pro
 The algorithm is given according to the fixed point theorem on domains, where the fixed point is reached by applying the transfer function $tranA(p, a)$ on  abstract domain $a$ iteratively until reaching a fixed point.
 
 For reference, we also attach the definition of monotone framework here(from ProgAA,p53):
+<img width="551" alt="image" src="https://github.com/user-attachments/assets/a131a94b-a1e3-4d9f-b340-d6f91e96d285" />
+
+
+
 **2.abstract interpretation:**
 The advantage of abstract interpretation is that the concrete transfer function $tran$ are defined once for all analyses, and we only need to define the abstraction and concretization functions $\alpha$ and $\gamma$ for different analyses, since the bulk of the work is to define $tran$.
 
@@ -230,6 +234,10 @@ we summarize some common domains in a table:
 
 
 The summary from ProgA, p70 is attached here for reference:
+
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/86ffbf78-602f-49fc-9a98-3ea1b5cc323b" />
+
+
 
 ## References
 - Lectures on Domains and Denotational Semantics, Glynn Winskel (main reference)
