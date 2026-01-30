@@ -4,16 +4,14 @@ weight = 2
 +++
 
 ## Introduction
-Compared to other algebras, such as groups and rings, ordered structures are more complicated, since the order relation is quite different from other algebraic operations like addition, multiplication, and real analysis often studies inequalities which is ordered structures. So this field is actually underlooked, despite its importance in various fields:
+The theory of ordered structures like lattices and domain theory is a underlooked field in mathematics, compared to other algebraic fields about groups, vector spaces, graphs, etc.
+Ordered structures are complicated, since the order relation is quite different from other algebraic operations like addition, multiplication.
+
+As an example, Real analysis frequently studies inequalities and ordered structures. Additionally, order theory plays a crucial role in areas such as:
 - denotational semantics of programming languages
-- properties of topology and real numbers
+- properties of topology and the real numbers
 
-
-More specifically, some important questions include:
-- Is $D \cong D \to D$ solvable for some domain $D$?
-- type issues for $x \to x(x)$ in untyped lambda calculus
-- the relation between continuous functions and computability
-
+About the prerequisites,Basic order theory doesn't require much background, but the topics about topology and adjunctions require maturity in general topology and category theory.
 
 We aim to cover the following topics:
 - definitions of partial orders, lattices, domains
@@ -23,13 +21,20 @@ We aim to cover the following topics:
 - adjunction with topological spaces
 - applications in semantics of programming languages
 
-Basic order theory doesn't require much background, but the topics about topology and adjunctions require maturity in general topology and category theory.
+Some important questions in this field are:
+- Is $D \cong D \to D$ solvable for some domain $D$?
+- type issues for $x \to x(x)$ in untyped lambda calculus
+- the relation between continuous functions and computability
 
-Note: There are many closely related concepts in this field, like lattices, domains, frames, locales, etc, each having slightly different definitions and properties, which may be confusing. 
 
 we focus mainly on lattices and domains, and frames are still TBD.
 
-notations for partial orders and domains:
+
+Note: There are many closely related concepts in this field, like lattices, domains, frames, locales, etc, each having slightly different definitions and properties, which may be confusing. 
+
+## the ordered structures
+**preliminary notations:**
+We start with the most basic notations for partial orders and domains:
 - $\leq : D \times D \to Bool$ : partial order relation. 
 - $\sqcup : D \times D \to D$ : least upper bound (supremum). 
 - $\sqcap$ : greatest lower bound (infimum)
@@ -39,7 +44,6 @@ notations for lattices:
 - $\vee$ : join (least upper bound)
 - $\wedge$ : meet (greatest lower bound)
 
-## the ordered structures
 Now we give the definitions of various ordered structures from partial orders to lattices.
 
 ### partial order
@@ -186,12 +190,21 @@ The functor from lattices to topological spaces:
 ## Applications: program analysis
 program analysis is a formal method to analyze programs without executing them. It can be used to approximate the behavior of programs.The domain in program analysis represent the info of a program at it's execution point(in program graph or flow graph). 
 
+
+In contrast to existing textbooks which first introduce specific analyses(like reaching definitions) and then present general frameworks(monotone framework, etc), we start from the general frameworks and then summarize specific analyses.
+
+
 we start with some notations:
 - $WholeProgram$ : the whole program
 - $progGraph(Prog)$ or $flowGraph(Prog)$, etc, denotes the program graph or flow graph of the whole program. 
 - $Prog$ : the program fragment, like statements, expressions, etc.
 - $A$ : the abstract domain, representing the properties we want to analyze
-- $Result = Var \to A$ : the result of program analysis, mapping variable names to values in the abstract domain $A$.
+- $Q$ : the program points. We assume $Q$ includes unknown point $?$, start point and end point.
+- $Result = ProgPoint \to A$ : the result of program analysis, mapping each program point to the value in the abstract domain $A$.
+
+Note:
+- The $Result$ is usually implemented as a map.
+
 
 **1.without abstract interpretation:**
 
@@ -225,12 +238,29 @@ The goal of program analysis is to calculate the values of the abstract domain $
 - derive the abstract transfer function $tranA: Prog \to A \to A$ as $tranA(p, a) = \alpha(tran(p, \gamma(a)))$, defined via composition with $\alpha$, $\gamma$ and $tran$.
 - now we have $tranA: Prog \to A \to A$, and same as before.
 
-### common abstract domains
-we summarize some common domains in a table:
-| Analysis             | Lattice/Domain     | Description                                                          |
-| -------------------- | ------------------ | -------------------------------------------------------------------- |
-| Reaching definitions | $Var \to Pow(Q*Q)$ | For each variable, the set of program points where it may be defined |
+**common abstract domains**
 
+we summarize some common domains in a table:
+| Analysis                     | Lattice/Domain                                      | Description                                                          |
+| ---------------------------- | --------------------------------------------------- | -------------------------------------------------------------------- |
+| Reaching definitions         | $Var \to Pow(Q*Q)$  or $Pow(Var \times Q \times Q)$ | For each variable, the set of program points where it may be defined |
+| Live variables               | $Pow(Var)$                                          | The set of variables used in the program point                       |
+| Interval analysis            | $Var \to Interval$                                  | For each variable, the range of it's possible values                 |
+| Collective semantics(ProgAA) | $Pow(Var \to Value)$                                | The set of all possible variable assignments at a program point      |
+| Collective semantics(ProgA)  | $Pow(Var \to ProgPoint)$                            | Program points where each variable changed                           |
+
+
+The lattices structures are defined as follows:
+| Lattice/Domain                                     | $\leq$                                      | $\sqcup$               | $\bot$      |
+| -------------------------------------------------- | ------------------------------------------- | ---------------------- | ----------- |
+| $Var \to Pow(Q*Q)$ or $Pow(Var \times Q \times Q)$ | induced from subset inclusion of $Pow(Q*Q)$ | induced from set union | $\emptyset$ |
+
+
+Note : 
+- The collecting semantics in ProgAA and ProgA are different, since the former is more introductory and simpler.
+- $ProgPoint$ is the type representing program points, like blocks numbers.
+- For reaching definitions, $Var \to Pow(Q*Q)$ is equivalent to $Pow(Var \times Q \times Q)$ via currying.
+- For induced $\leq$ it means that $a \leq b$ iff $\forall v \in Var, a(v) \subseteq b(v)$.
 
 
 The summary from ProgA, p70 is attached here for reference:
@@ -238,13 +268,19 @@ The summary from ProgA, p70 is attached here for reference:
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/86ffbf78-602f-49fc-9a98-3ea1b5cc323b" />
 
 
+## Applications: program semantics
+Denotational semantics is a formal method to define the semantics of programming languages by mapping the syntax of programs to elements in domains. The domains represent the possible values and states of the programs during execution.
+The main steps to define denotational semantics using domains are:
+
+## Applications: logical systems
 
 ## References
+Textbooks:
 - Lectures on Domains and Denotational Semantics, Glynn Winskel (main reference)
 - SemPL The Formal Semantics of Programming Languages: An Introduction, Glynn Winskel
 - Semantics with Applications: An Appetizer, Hanne Riis Nielson and Flemming Nielson
 - Domain theory by Abramsky and Jung (From the book "Handbook of Logic in Computer Science", Volume 3)
-- Introduction to Lattices and Order
+- Introduction to Lattices and Order (Stone duality, topology)
 - A lambda Calculus for Real Analysis, Paul Taylor
 - ProgAA, Program Analysis an Appetizer, Flemming Nielson
 - ProgA, Principles of Program Analysis, Flemming Nielson

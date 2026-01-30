@@ -8,8 +8,9 @@ Ecofunctor is a research project for ecology, mathematics and computer science, 
 
 Currently the project is focusing on bringing the gap between normal audience and difficult topics in several fields, like abstract mathematics, computer science, and philosophy, with a wiki website for easy access and reading, and the mindset of mathematical rigor and clarity shall be adopted.
 
-Please check [docs](./docs/) for several articles on philosophy and mathematics.
-
+{{< tip >}}
+See [docs](./docs/) for several articles on the topics mentioned above.
+{{< /tip >}}
 
 The purpose of this project could be anything but profit(setting the profitability as goal renders the project unnecessary):
 - improvement of critical thinking via Lacanian/Zizikian/Schopenhauer theories, together with abstract mathematics, to lift analytical skills to a unseen height
