@@ -64,6 +64,9 @@ This means that applying $F$ to $f$ and then $\eta_{c_2}$ is the same as applyin
 
 
 ## Adjunctions
+Informally, adjunctions can be thought of as a generalization of equivalence(a pair of functions and its inverse), but in a more flexible/weaker sense. Thus more structures which are not isomorphic are related via adjunctions in a weaker way.
+
+
 An adjunction is a pair of functors that stand in a particular relationship to each other. Specifically, a functor $F: C \to D$ is left adjoint to a functor $G: D \to C$ if there is a natural isomorphism between the hom-sets:
 $$
 Hom_D(F(c), d) \cong Hom_C(c, G(d))
