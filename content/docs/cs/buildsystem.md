@@ -3,9 +3,14 @@ title = "build systems"
 weight = 1
 +++
 
-This article aims to be a mathematical(or algebraic) introduction to build systems, as well as a formal definition and practical issues about build systems. 
+This article aims to be a mathematical(algebraic) introduction to build systems, and their design and implementation issues. 
 
-Specifically, we aim to present:
+Just to list a few build tools: Make, CMake, Bazel, Ninja, SBT, Mill, gradle, Maven, etc, Each has distinct features and requires learning when you switch between different software projects. 
+
+A while ago Mill sparked my interest on how to understand build systems from a mathematical perspective. As the software is becoming more complex, their build systems is getting more complex as well, so the obstacles of understanding the project is not only the code itself, but also the process of building the code, which is much less formalized than the theory of programming languages. I hope this article can help  to understand build systems in a theoretical way.
+
+
+The core concepts of our discussion are:
 - The definition of build systems
 - Other mathematical concepts used in build systems
 - The practical issues of build systems
@@ -13,26 +18,30 @@ Specifically, we aim to present:
 - The implementation of build systems
 
 
-
-The above build tools are practical and uses functional programming concepts, but they do not operate explicitly on build graphs. In contrast, this document aims to discuss more on the theoretical side.
-
-## Definition
+## Definition of build systems
 A build system mainly consists of:
-1. A mechanism to define, modify, and inspect the build/task graph
-2. A mechanism to parameterize the build graph so it's modular and reusable
-3. The execution engine to execute the build graph
-4. Practical features like caching, incremental build, parallel build, etc.
+1. A mechanism to define, modify, and inspect the build/task graph. We denote the build graph as `Graph`, which is a directed acyclic graph.
+2. A mechanism to parameterize the build graph so it's modular and reusable. This can be denoted via function abstraction `A => Graph`, where `A` is the parameter type and `Graph` is the build graph. This allows us to define a build graph template that can be instantiated with different parameters.
+3. A mechanism to represent the effect of executing the build graph, such as the input and output files, the environments, etc. For generality, we use `State` to represent the current state of the environment including all the input and output files, etc. 
+4. The execution engine to execute the build graph, Denote as `exec: Graph => State => (Graph, State)`, which takes a build graph and the current state, and produces a new build graph and a new state after execution.
+5. Practical features like caching, incremental build, parallel build, dependency management, etc. Those can think of as details of the execution engine `exec`.
 
-A scenario is that users define the build graph using some DSL or API, depending on what they want. Then this build graph is transformed and enriched with more information, or combined with existing build graphs. Finally, the execution engine executes the build graph to produce the desired targets. Later, users may inspect the build graph to see what tasks are defined, what dependencies are there, etc. The user may also modify the build graph to add more tasks or change existing tasks, where the parameterization mechanism helps a lot.
+The first point is actually about designing a domain specific language(DSL) for users to write the build graph, and that's why there are so many different build systems, because they implement different DSLs to construct the build graph. The second point is about how to make the build graph modular and reusable, which is important for large projects. The third point is about how to execute the build graph, which is also important for performance.
+
+In real world, the build system may also include many other features, such as dependency management, artifact publishing, etc. But we will focus on the core features of build systems in this article.
+
+
+To open the stage for the discussion, let's see a typical scenario.
+A user defines the build graph using some DSL or API, depending on what they want. Then this build graph is transformed and enriched with more information, or combined with existing build graphs. Finally, the execution engine executes the build graph to produce the desired targets. Later, users may inspect the build graph to see what tasks are defined, what dependencies are there, etc. The user may also modify the build graph to add more tasks or change existing tasks, where the parameterization mechanism helps a lot.
 
 
 ## The build graph
-The build graph is a directed graph where the nodes are operations and the edges are dependencies between the operations. It specifies the dependencies between the tasks.
+The build graph is a directed graph where the nodes are operations and the edges are dependencies between the operations. It specifies the dependencies between the tasks. It's also called the task graph.
 
 For example, if we want to build the linux kernel Image, then the node may have the following:
 1. The node name is "kernelImage"
 2. The node id is 1
-3. The node info is the make command to build the kernel Image
+3. The node operation is to compile the kernel source code
 
 ## practical issues
 Practical issues aside from the mathematical beauty of build systems:
@@ -52,6 +61,28 @@ Some issues are hard to solve:
 - How to pass information between the nodes, like the output of one node to the input of another node?
 - How to listen to events and do recompilation?
 
+
+# Implementation
+Constructing the build graph is one of the core features of a build system, and it can be done in multiple ways, and we shall discuss some of them in detail.
+
+Using function calls(like Mill):
+- the nodes are function definitions and the edges are function calls. The final build graph is a composite function definition at top level.
+- In more detail, the nodes are functions defined inside `T{}:T[A]`, enriching the function definition with more information needed for the build system.
+- Parameterization and modularity are achieved via function parameters, class/trait based subtyping(inheritance, mixin, overriding).
+- The inspection of the build graph may need help from meta-programming to record the function calls.
+- Modification of the build graph is equal modify the final composite function, which may be hard and limited to pre and post composition. However, this is not a big issue since we can write a top level function to invoke the previously defined util functions.
+
+
+Using function calls with imperative style(like SBT):
+- the nodes are function definitions wrapped in `TaskKey` which is mutable, and the edges are delayed function calls `taskKey.value`(delayed because execution engine will decide the execution order later). This needs help from macros, a meta-programming feature in Scala.
+- Since the `TaskKey` is mutable, it can help with the modification of the build graph, but it may be hard to track the changes.
+- In contrast with Mill, the nodes in Mill are immutable.
+
+
+Using graph data structures:
+- the nodes and edges are explicitly defined. 
+- The inspection and modification of the build graph is straightforward via standard graph algorithms.
+
 ## An ideal build system
 To keep the theoretical beauty and make it flexible, here are some points to consider:
 - explicit build graph representation so inspection and manipulation is easier
@@ -59,18 +90,6 @@ To keep the theoretical beauty and make it flexible, here are some points to con
 - split into multiple stages: graph construction, graph transformation, graph execution
 - utilize the concepts of graph for other features of the build system, such as caching, incremental build, parallel build
 
-# Implementation
-Constructing the build graph can be done in multiple ways, and we shall discuss some of them in detail:
-Using function calls:
-- the nodes are function definitions and the edges are function calls. The final build graph is a composite function definition at top level.
-- Parameterization is just function parameters.
-- The inspection of the build graph may need help from meta-programming to record the function calls.
-- Modification of the build graph is to modify the final composite function, which may be hard and limited to pre and post composition.
-  
-  
-Using graph data structures:
-- the nodes and edges are explicitly defined. 
-- The inspection and modification of the build graph is straightforward.
 ## Examples
 Some noteable build systems in functional flavor are:
 - [SBT](https://www.scala-sbt.org/): Scala's de facto build tool, imperative style using `TaskKey` to build the task graph
@@ -82,19 +101,14 @@ And some other popular build systems are:
 - [Bazel](https://bazel.build/)
 - [Ninja](https://ninja-build.org/)
 
-We list some existing build systems and their features in a table:
-| Build System | graph construction                | task graph inspection |
-| ------------ | --------------------------------- | --------------------- |
-| Sbt          | imperative `TaskKey` reassignment |                       |
-| Mill         | function calls                    | mill `visualize`      |
-| Make         | `node` in Makefile                |                       |
-| Shake        | `node` in Haskell                 |                       |
+We sommarize the features of the build systems according to the core concepts:
 
-# Other thoughts
-Hi, I'm wondering if Mill can be used as a build system to replace Make? like for building linux kernel? Maybe some integration with os-lib would help?
+| Build System | graph node                   | graph edge      | graph inspection |
+| ------------ | ---------------------------- | --------------- | ---------------- |
+| Sbt          | `TaskKey` assign/reassign    | `taskKey.value` | `inspect`        |
+| Mill         | function def wrapped in`T{}` | function call   | mill `visualize` |
+| Make         | `node` in Makefile           |                 |                  |
+| Shake        | `node` DSL in Haskell        |                 |                  |
 
-Wow thanks that's cool! Could you point me to the documentation? I guess it's related to the section Building Javascript with Mill
-
-thanks, I'm thinking about writing some build scripts in Mill that invoke the old makefiles, which will be easier initially. 
-
-I'm also writing an article about build systems from a mathematical perspective, will share it later.
+# References
+- [How mill works](https://www.lihaoyi.com/post/SoWhatsSoSpecialAboutTheMillScalaBuildTool.html)
