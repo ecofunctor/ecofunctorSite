@@ -20,7 +20,7 @@ The core concepts of our discussion are:
 
 ## Definition of build systems
 A build system mainly consists of:
-1. A mechanism to define, modify, and inspect the build/task graph. We denote the build graph as `Graph`, which is a directed acyclic graph.
+1. A mechanism to define, modify, and inspect the build/task graph. We denote the build graph as `Graph`, which is a directed acyclic graph(DAG). We let `Graph=(Nodes, Edges)`.
 2. A mechanism to parameterize the build graph so it's modular and reusable. This can be denoted via function abstraction `A => Graph`, where `A` is the parameter type and `Graph` is the build graph. This allows us to define a build graph template that can be instantiated with different parameters.
 3. A mechanism to represent the effect of executing the build graph, such as the input and output files, the environments, etc. For generality, we use `State` to represent the current state of the environment including all the input and output files, etc. 
 4. The execution engine to execute the build graph, Denote as `exec: Graph => State => (Graph, State)`, which takes a build graph and the current state, and produces a new build graph and a new state after execution.
@@ -35,13 +35,26 @@ To open the stage for the discussion, let's see a typical scenario.
 A user defines the build graph using some DSL or API, depending on what they want. Then this build graph is transformed and enriched with more information, or combined with existing build graphs. Finally, the execution engine executes the build graph to produce the desired targets. Later, users may inspect the build graph to see what tasks are defined, what dependencies are there, etc. The user may also modify the build graph to add more tasks or change existing tasks, where the parameterization mechanism helps a lot.
 
 
-## The build graph
-The build graph is a directed graph where the nodes are operations and the edges are dependencies between the operations. It specifies the dependencies between the tasks. It's also called the task graph.
+### The build graph
+As mentioned above, the build graph(aka task graph) `Graph=(Nodes, Edges)` is a directed graph where the nodes are operations/tasks and the edges are dependencies between the operations:
+- A node in `Nodes` contains a unique identifier, a name(for readability), and an operation `op: State => State` that transforms the state of the environment.
+- An edge in `Edges` is a directed edge from one node to another, indicating that the target node depends on the source node. This means that the operation of the target node can only be executed after the operation of the source node has been executed.
 
 For example, if we want to build the linux kernel Image, then the node may have the following:
 1. The node name is "kernelImage"
 2. The node id is 1
 3. The node operation is to compile the kernel source code
+
+Another way to formalize is to use a wrapper type `T[A]` for the nodes, where `A` is the type of the output. An edge is a function: `edge:T[A] => T[B]=> Edge`, meaning that the output of the first node is the input of the second node. we shall note that:
+- `T[B]` might be `A=>T[B]`
+- 
+And then an example of a build graph is:
+```scala
+val node1: T[File] = T{ File("kernelImage") } 
+val node2: File => T[File] = T{ input => File("kernelImage") }
+val edge: Edge = node1 --> node2
+val graph: Graph = Graph(Nodes = Set(node1, node2), Edges = Set(edge))
+```
 
 ## practical issues
 Practical issues aside from the mathematical beauty of build systems:
