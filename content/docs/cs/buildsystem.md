@@ -3,16 +3,21 @@ title = "build systems"
 weight = 1
 +++
 
-This article aims to be a mathematical(algebraic) introduction to build systems, and their design and implementation issues. 
+This article aims to be a mathematical(algebraic) introduction to build systems, and their design and implementation issues. This will be helpful for:
+- software developers who are frustrated by the complexity of many build systems
+- software engineers who is new to build systems, but is mathematically inclined so he wants to understand the theory first.
+- people who are interested in build systems and want to understand them from a theoretical perspective
+- theoretical computer scientists or math hobbyists who want to see the application of directed acyclic graphs.
 
-Just to list a few build tools: Make, CMake, Bazel, Ninja, SBT, Mill, gradle, Maven, etc, Each has distinct features and requires learning when you switch between different software projects. 
 
-A while ago Mill sparked my interest on how to understand build systems from a mathematical perspective. As the software is becoming more complex, their build systems is getting more complex as well, so the obstacles of understanding the project is not only the code itself, but also the process of building the code, which is much less formalized than the theory of programming languages. I hope this article can help  to understand build systems in a theoretical way.
+During the career of a software developer, you will encounter different build systems, and they are often a source of confusion and frustration, although they are usually not the focus of the project. Just to list a few build tools: Make, CMake, Bazel, Ninja, SBT, Mill, gradle, Maven, etc, Each has distinct features and requires learning when you switch between different software projects. 
+
+Nowadays, as the software is becoming more complex, their build systems is getting more complex as well. So the obstacles of understanding the software project is not only the codebase itself, but also the build system that puts everything together. A while ago the Mill build system(written in Scala) sparked my interest(again) on how to understand build systems, so I decided to write this article to share my understanding as well as record my thoughts about build systems.
 
 
 The core concepts of our discussion are:
 - The definition of build systems
-- Other mathematical concepts used in build systems
+- Mathematical concepts used in build systems
 - The practical issues of build systems
 - Designing a flexible build system based on explicit build graphs
 - The implementation of build systems
@@ -20,13 +25,14 @@ The core concepts of our discussion are:
 
 ## Definition of build systems
 A build system mainly consists of:
-1. A mechanism to define, modify, and inspect the build/task graph. We denote the build graph as `Graph`, which is a directed acyclic graph(DAG). We let `Graph=(Nodes, Edges)`.
-2. A mechanism to parameterize the build graph so it's modular and reusable. This can be denoted via function abstraction `A => Graph`, where `A` is the parameter type and `Graph` is the build graph. This allows us to define a build graph template that can be instantiated with different parameters.
-3. A mechanism to represent the effect of executing the build graph, such as the input and output files, the environments, etc. For generality, we use `State` to represent the current state of the environment including all the input and output files, etc. 
-4. The execution engine to execute the build graph, Denote as `exec: Graph => State => (Graph, State)`, which takes a build graph and the current state, and produces a new build graph and a new state after execution.
-5. Practical features like caching, incremental build, parallel build, dependency management, etc. Those can think of as details of the execution engine `exec`.
+1. A way to represent the codebase. This is usually represented as directed acyclic graph(DAG) where the nodes are tasks and the edges are dependencies between the tasks. We denote this as `Graph`.
+2. A mechanism to define, modify, and inspect the build/task graph. We denote the build graph as `Graph`, which is a directed acyclic graph(DAG). We let `Graph=(Nodes, Edges)`.
+3. A mechanism to parameterize the build graph so it's modular and reusable. This can be denoted via function abstraction `A => Graph`, where `A` is the parameter type and `Graph` is the build graph. This allows us to define a build graph template that can be instantiated with different parameters.
+4. A mechanism to represent the effect of executing the build graph, such as the input and output files, the environments, etc. For generality, we use `State` to represent the current state of the environment including all the input and output files, etc. 
+5. The execution engine to execute the build graph, Denote as `exec: Graph => State => (Graph, State)`, which takes a build graph and the current state, and produces a new build graph and a new state after execution.
+6. Practical features like caching, incremental build, parallel build, dependency management, etc. Those can think of as details of the execution engine `exec`.
 
-The first point is actually about designing a domain specific language(DSL) for users to write the build graph, and that's why there are so many different build systems, because they implement different DSLs to construct the build graph. The second point is about how to make the build graph modular and reusable, which is important for large projects. The third point is about how to execute the build graph, which is also important for performance.
+The second point is actually about designing a domain specific language(DSL) for users to write the build graph, and that's why there are so many different build systems, because they implement different DSLs(makefile,sbt file,etc) to construct the build graph. The third point is about how to make the build graph modular and reusable, which is important for large projects. The fourth point is about how to execute the build graph, which is also important for performance.
 
 In real world, the build system may also include many other features, such as dependency management, artifact publishing, etc. But we will focus on the core features of build systems in this article.
 
@@ -98,10 +104,10 @@ Using graph data structures:
 
 ## An ideal build system
 To keep the theoretical beauty and make it flexible, here are some points to consider:
-- explicit build graph representation so inspection and manipulation is easier
-- nodes and edges can be identified and modified later after construction of the build graph
-- split into multiple stages: graph construction, graph transformation, graph execution
-- utilize the concepts of graph for other features of the build system, such as caching, incremental build, parallel build
+- the build graph is explicitly defined as DAG, so inspection and manipulation is easier
+- nodes and edges can be identified and modified later after construction of the build graph, for reusability.
+- split into multiple stages: graph construction, graph transformation, graph execution, so that we can have more control over the build process, and also make it easier to implement features like caching, incremental build, parallel build, etc.
+- utilize the concepts of graph for other features of the build system, such as caching, incremental build, parallel build, etc. For example, we can use the graph structure to determine which nodes need to be rebuilt when a source file changes, or which nodes can be executed in parallel.
 
 ## Examples
 Some noteable build systems in functional flavor are:
