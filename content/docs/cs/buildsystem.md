@@ -82,7 +82,10 @@ Some issues are hard to solve:
 
 
 # Implementation
-Constructing the build graph is one of the core features of a build system, and it can be done in multiple ways, and we shall discuss some of them in detail.
+Constructing the build graph is a core feature of build systems, and it can be done in multiple ways, and we shall discuss some of them in detail. We categorize it into two ways:
+- implicitly, like via function calls, like Mill and SBT
+- explicitly via graph data structures(Makefile, Shake's DSL are this flavor)
+
 
 Using function calls(like Mill):
 - the nodes are function definitions and the edges are function calls. The final build graph is a composite function definition at top level.
@@ -103,7 +106,7 @@ Using graph data structures:
 - The inspection and modification of the build graph is straightforward via standard graph algorithms.
 
 ## An ideal build system
-To keep the theoretical beauty and make it flexible, here are some points to consider:
+Having discussed the implicit and explicit ways, we imagine an build system that is explicit but also has the flexibility of the implicit way:
 - the build graph is explicitly defined as DAG, so inspection and manipulation is easier
 - nodes and edges can be identified and modified later after construction of the build graph, for reusability.
 - split into multiple stages: graph construction, graph transformation, graph execution, so that we can have more control over the build process, and also make it easier to implement features like caching, incremental build, parallel build, etc.
