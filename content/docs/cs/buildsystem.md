@@ -17,15 +17,14 @@ Nowadays, as the software is becoming more complex, their build systems is getti
 
 The core concepts of our discussion are:
 - The definition of build systems
-- Mathematical concepts used in build systems
 - The practical issues of build systems
 - Designing a flexible build system based on explicit build graphs
 - The implementation of build systems
 
 
 ## Definition of build systems
-A build system mainly consists of:
-1. A way to represent the codebase. This is usually represented as directed acyclic graph(DAG) where the nodes are tasks and the edges are dependencies between the tasks. We denote this as `Graph`.
+In general, a build system transforms the set of source files S into a set of target files T, so it's a function `b : S => T`. However, this is too abstract, and we discuss it in more details, so a build system mainly consists of:
+1. A way to represent the codebase. This is usually represented as directed acyclic graph(DAG) where the nodes are tasks and the edges are dependencies between the tasks. We denote this as `Graph`. This `Graph` also contains other information, and the build system should provide a way to construct this `Graph` from the source files `S`. 
 2. A mechanism to define, modify, and inspect the build/task graph. We denote the build graph as `Graph`, which is a directed acyclic graph(DAG). We let `Graph=(Nodes, Edges)`.
 3. A mechanism to parameterize the build graph so it's modular and reusable. This can be denoted via function abstraction `A => Graph`, where `A` is the parameter type and `Graph` is the build graph. This allows us to define a build graph template that can be instantiated with different parameters.
 4. A mechanism to represent the effect of executing the build graph, such as the input and output files, the environments, etc. For generality, we use `State` to represent the current state of the environment including all the input and output files, etc. 
@@ -42,16 +41,14 @@ A user defines the build graph using some DSL or API, depending on what they wan
 
 
 ### The build graph
-As mentioned above, the build graph(aka task graph) `Graph=(Nodes, Edges)` is a directed graph where the nodes are operations/tasks and the edges are dependencies between the operations:
+As mentioned above, the build graph(aka task graph) `Graph=(Nodes, Edges)` is a directed graph where the nodes are operations/tasks and the edges are dependencies between the operations. However, there is no ideal way to define the build graph, which contains extra information(operation, files, parameters, etc).
+
+One possible way is to formalize via functions:
 - A node in `Nodes` contains a unique identifier, a name(for readability), and an operation `op: State => State` that transforms the state of the environment.
 - An edge in `Edges` is a directed edge from one node to another, indicating that the target node depends on the source node. This means that the operation of the target node can only be executed after the operation of the source node has been executed.
 
-For example, if we want to build the linux kernel Image, then the node may have the following:
-1. The node name is "kernelImage"
-2. The node id is 1
-3. The node operation is to compile the kernel source code
 
-Another way to formalize is to use a wrapper type `T[A]` for the nodes, where `A` is the type of the output. An edge is a function: `edge:T[A] => T[B]=> Edge`, meaning that the output of the first node is the input of the second node. we shall note that:
+Another way is to use a wrapper type `T[A]` for the nodes, where `A` is the type of the output. An edge is a function: `edge:T[A] => T[B]=> Edge`, meaning that the output of the first node is the input of the second node. we shall note that:
 - `T[B]` might be `A=>T[B]`
 - 
 And then an example of a build graph is:
@@ -61,6 +58,12 @@ val node2: File => T[File] = T{ input => File("kernelImage") }
 val edge: Edge = node1 --> node2
 val graph: Graph = Graph(Nodes = Set(node1, node2), Edges = Set(edge))
 ```
+
+
+For example, if we want to build the linux kernel Image, then the node may have the following:
+1. The node name is "kernelImage"
+2. The node id is 1
+3. The node operation is to compile the kernel source code
 
 ## practical issues
 Practical issues aside from the mathematical beauty of build systems:
@@ -98,12 +101,12 @@ Using function calls(like Mill):
 Using function calls with imperative style(like SBT):
 - the nodes are function definitions wrapped in `TaskKey` which is mutable, and the edges are delayed function calls `taskKey.value`(delayed because execution engine will decide the execution order later). This needs help from macros, a meta-programming feature in Scala.
 - Since the `TaskKey` is mutable, it can help with the modification of the build graph, but it may be hard to track the changes.
-- In contrast with Mill, the nodes in Mill are immutable.
+- In contrast, the nodes in Mill are immutable.
 
 
 Using graph data structures:
 - the nodes and edges are explicitly defined. 
-- The inspection and modification of the build graph is straightforward via standard graph algorithms.
+- The inspection and modification of the build graph is straightforward via standard graph algorithms once the particular nodes and edges are identified. 
 
 ## An ideal build system
 Having discussed the implicit and explicit ways, we imagine an build system that is explicit but also has the flexibility of the implicit way:
