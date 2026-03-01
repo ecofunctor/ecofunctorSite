@@ -51,35 +51,52 @@ One possible way is to formalize via functions:
 Another way is to use a wrapper type `T[A]` for the nodes, where `A` is the type of the output. An edge is a function: `edge:T[A] => T[B]=> Edge`, meaning that the output of the first node is the input of the second node. we shall note that:
 - `T[B]` might be `A=>T[B]`
 - 
-And then an example of a build graph is:
+
+
+For example, if we want to build a collection of java source files into a jar file, we can define the build graph as follows:
+- each source file is contained in the information of the node
+- the edges are defined by the dependencies between the source files, such as which source file imports which other source file, etc.
+- the operation of each node is to compile the source file into a class file, and the operation of the final node is to package the class files into a jar file.
+
+The code for the example with method 1 can be like this:
 ```scala
-val node1: T[File] = T{ File("kernelImage") } 
-val node2: File => T[File] = T{ input => File("kernelImage") }
-val edge: Edge = node1 --> node2
-val graph: Graph = Graph(Nodes = Set(node1, node2), Edges = Set(edge))
+val sourceFile1: Node = Node(id = "sourceFile1", name = "Source
+File 1", op = compileSourceFile("sourceFile1.java"))
+val sourceFile2: Node = Node(id = "sourceFile2", name = "Source
+File 2", op = compileSourceFile("sourceFile2.java"))
+val jarFile: Node = Node(id = "jarFile", name = "Jar File",
+op = packageJarFile(Set(sourceFile1, sourceFile2)))
+val edge1: Edge = Edge(sourceFile1, jarFile)
+val edge2: Edge = Edge(sourceFile2, jarFile)
+val graph: Graph = Graph(Nodes = Set(sourceFile1, sourceFile2, jar
+File), Edges = Set(edge1, edge2))
 ```
 
-
-For example, if we want to build the linux kernel Image, then the node may have the following:
-1. The node name is "kernelImage"
-2. The node id is 1
-3. The node operation is to compile the kernel source code
+The code for the example with method 2 can be like this:
+```scala
+val sourceFile1: T[File] = T{ File("sourceFile1.java") }
+val sourceFile2: T[File] = T{ File("sourceFile2.java") }
+val jarFile: T[File] = T{ input => packageJarFile(Set(sourceFile1, sourceFile2)) }
+val edge1: Edge = sourceFile1 --> jarFile
+val edge2: Edge = sourceFile2 --> jarFile
+val graph: Graph = Graph(Nodes = Set(sourceFile1, sourceFile2, jarFile), Edges = Set(edge1, edge2))
+```
 
 ## practical issues
-Practical issues aside from the mathematical beauty of build systems:
+Let's discuss some practical issues:
  - Caching: to avoid rebuilding the same target
  - How to pass information between the nodes
  - Incremental build: to build only the changed targets
  - Parallel build: to build multiple targets in parallel
  - Dependency management: to manage the dependencies between the targets
 
-The Task Graph is a directed acyclic graph where the nodes are tasks:
+Some of them are answered by the build graph:
 - What tasks depends on what? use directed edges
 - Where do input files come from? just read from the file system
 - What needs to run in what order? topology sort
 - What can be parallelized and what can’t? topological sort
 
-Some issues are hard to solve:
+Some issues are harder to answer:
 - How to pass information between the nodes, like the output of one node to the input of another node?
 - How to listen to events and do recompilation?
 
