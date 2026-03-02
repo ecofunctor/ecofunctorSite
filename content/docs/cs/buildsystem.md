@@ -46,16 +46,25 @@ A user defines the build graph using some DSL or API, depending on what they wan
 
 
 ### The build graph, enriched
-As mentioned above, the build graph(aka task graph) `Graph=(Nodes, Edges)` is a directed graph where the nodes are operations/tasks and the edges are dependencies between the operations. However, there is no ideal way to define the build graph with extra information(operation, files, parameters, etc), particularly for nodes, and the edges usually just represent the dependencies thus don't need extra information.
+As mentioned above, the build graph(aka task graph) `Graph=(Nodes, Edges)` is a directed graph where the nodes are operations/tasks and the edges are dependencies between the operations. However, there is no ideal way to define the build graph with extra information(operation, files, parameters, etc), particularly for nodes, and the edges usually just represent the dependencies thus don't need extra information. To illustrate the idea, we list some alternative ways, which may not be mutually exclusive.
 
+
+**functional:** 
 One possible way is to formalize the enrichment via functions:
-- A node in `Nodes` contains a unique identifier, a name(for readability), and an operation `op: State => State` that transforms the state of the environment.`op` can also be imperative, and merely typed as `op: Unit`.
+- A node in `Nodes` contains a unique identifier, a name(for readability), and an operation `op: State => State` that transforms the state of the environment.`op` can also be imperative, and merely typed as `op: Unit`. Basically, the node is a product type of the above information, and the node type is the same for all nodes.
+- If one node depends on output of another node, one method is a shared state or filesystem, but this is not ideal due to lack of modularity and type safety. 
 
 
+**monadic:**
 Another way is to use a wrapper type `T[A]` for the nodes, where `A` is the type of the output, and `T[_]` adds more information. Now we shall think about monads, as the output of a node may be the input of another node, so another node may be typed as `A => T[B]`:
 - To keep the typing more consistent, we redefine the type of first node as `_ => T[A]`.
 - The edge function `edge: (A => T[B], B => T[C]) => A => T[C]` is the monadic composition.
 
+
+**function calls:**
+The nodes are typed as `T[A]`, but the edges are implicitly defined by function calls:
+- If a node `n1` of type `T[A]` is called inside the operation of another node `n2` of type `T[B]`, then we can say that there is an edge from `n1` to `n2`
+- The output of `n1: T[A]` can be used inside the operation body of `n2: T[B]`, and the type system can help with the type safety. 
 
 ## practical issues
 Let's discuss some practical issues:
