@@ -1,7 +1,13 @@
 +++
-title = "build systems"
+title = "Build systems"
 weight = 1
 +++
+
+
+During the career of a software developer, you will encounter different build systems, and they are often a source of confusion and frustration, although they are usually not the focus of the project(which are usually the algorithms, data structures, or business logic). Just to list a few build tools: Make, CMake, Bazel, Ninja, SBT, Mill, gradle, Maven, etc, Each has distinct features and has a learning curve that's not trivial to grasp.
+
+As the software is becoming more complex, their build systems is getting more complex as well. The obstacles of understanding the software project is not only the codebase itself, but also the build system, which puts everything together. 
+A while ago the Mill build system(written in Scala) sparked my interest(again) on how to understand build systems, so I decided to write this article to share my understanding,and record my thoughts as well, as I haven't found good resources on this topic theoretically.
 
 This article aims to be a mathematical, or algebraic introduction to build systems, and their design and implementation issues. This will be helpful for:
 - developers who are frustrated by the complexity of many build systems
@@ -9,17 +15,7 @@ This article aims to be a mathematical, or algebraic introduction to build syste
 - theoretical computer scientists or math hobbyists who want to see the application of directed acyclic graphs.
 
 
-During the career of a software developer, you will encounter different build systems, and they are often a source of confusion and frustration, although they are usually not the focus of the project(which are usually the algorithms, data structures, or business logic). 
-
-Just to list a few build tools: Make, CMake, Bazel, Ninja, SBT, Mill, gradle, Maven, etc, Each has distinct features and has a learning curve that's not trivial to grasp.
-
-As the software is becoming more complex, their build systems is getting more complex as well. The obstacles of understanding the software project is not only the codebase itself, but also the build system, which puts everything together. 
-
-
-A while ago the Mill build system(written in Scala) sparked my interest(again) on how to understand build systems, so I decided to write this article to share my understanding,and record my thoughts as well, as I haven't found good resources on this topic theoretically.
-
-
-The core concepts of our discussion are:
+We aim to cover the following topics:
 - The definition of build systems
 - The practical issues of build systems
 - Designing a flexible build system based on explicit build graphs
@@ -27,7 +23,7 @@ The core concepts of our discussion are:
 
 
 ## Definition of build systems
-In general, a build system transforms the set of source files S into a set of target files T, so it's a function `b : S => T`. However, this is too abstract, and we shall discuss it in more details, so a build system mainly consists of:
+Most abstractly, a build system transforms the set of source files `S` into a set of target files `T`, so it's a function `b : S => T`. However, this is too abstract to be useful, and we shall list core features of build systems below for analysis:
 1. A way to represent the codebase. This is usually represented as directed acyclic graph(DAG) where the nodes are tasks and the edges are dependencies between the tasks. We denote this as `Graph`. This `Graph` also contains other information, and the build system should provide a way to construct this `Graph` from the source files `S`. 
 2. A mechanism to define, modify, and inspect the build/task graph.
 3. A mechanism to parameterize the build graph so it's modular and reusable. This can be denoted via function abstraction `A => Graph`, where `A` is the parameter type and `Graph` is the build graph. This allows us to define a build graph template that can be instantiated with different parameters. More details come later.
@@ -49,17 +45,16 @@ To open the stage for the discussion, let's see a typical scenario from the pers
 A user defines the build graph using some DSL or API, depending on what they want. Then this build graph is transformed and enriched with more information, or combined with existing build graphs. Finally, the execution engine executes the build graph to produce the desired targets. Later, users may inspect the build graph to see what tasks are defined, what dependencies are there, etc. The user may also modify the build graph to add more tasks or change existing tasks, where the parameterization mechanism helps a lot.
 
 
-### The build graph
-As mentioned above, the build graph(aka task graph) `Graph=(Nodes, Edges)` is a directed graph where the nodes are operations/tasks and the edges are dependencies between the operations. However, there is no ideal way to define the build graph with extra information(operation, files, parameters, etc).
+### The build graph, enriched
+As mentioned above, the build graph(aka task graph) `Graph=(Nodes, Edges)` is a directed graph where the nodes are operations/tasks and the edges are dependencies between the operations. However, there is no ideal way to define the build graph with extra information(operation, files, parameters, etc), particularly for nodes, and the edges usually just represent the dependencies thus don't need extra information.
 
-One possible way is to formalize via functions:
-- A node in `Nodes` contains a unique identifier, a name(for readability), and an operation `op: State => State` that transforms the state of the environment.
-- An edge in `Edges` is a directed edge from one node to another, indicating that the target node depends on the source node. This means that the operation of the target node can only be executed after the operation of the source node has been executed.
+One possible way is to formalize the enrichment via functions:
+- A node in `Nodes` contains a unique identifier, a name(for readability), and an operation `op: State => State` that transforms the state of the environment.`op` can also be imperative, and merely typed as `op: Unit`.
 
 
-Another way is to use a wrapper type `T[A]` for the nodes, where `A` is the type of the output. An edge is a function: `edge:T[A] => T[B]=> Edge`, meaning that the output of the first node is the input of the second node. we shall note that:
-- `T[B]` might be `A=>T[B]`
-- 
+Another way is to use a wrapper type `T[A]` for the nodes, where `A` is the type of the output, and `T[_]` adds more information. Now we shall think about monads, as the output of a node may be the input of another node, so another node may be typed as `A => T[B]`:
+- To keep the typing more consistent, we redefine the type of first node as `_ => T[A]`.
+- The edge function `edge: (A => T[B], B => T[C]) => A => T[C]` is the monadic composition.
 
 
 ## practical issues
@@ -137,7 +132,7 @@ executeBuild(jarFile, initialState)
 ```
 
 ## An ideal build system
-Having discussed the implicit and explicit ways, we imagine an build system that is explicit but also has the flexibility of the implicit way:
+Having discussed the implicit and explicit ways, let's see a potential design of a build system with explicit build graph:
 - the build graph is explicitly defined as DAG, so inspection and manipulation is easier
 - nodes and edges can be identified and modified later after construction of the build graph, for reusability.
 - split into multiple stages: graph construction, graph transformation, graph execution, so that we can have more control over the build process, and also make it easier to implement features like caching, incremental build, parallel build, etc.
@@ -156,12 +151,13 @@ And some other popular build systems are:
 
 We sommarize the features of the build systems according to the core concepts:
 
-| Build System | graph node                   | graph edge      | graph inspection |
-| ------------ | ---------------------------- | --------------- | ---------------- |
-| Sbt          | `TaskKey` assign/reassign    | `taskKey.value` | `inspect`        |
-| Mill         | function def wrapped in`T{}` | function call   | mill `visualize` |
-| Make         | `node` in Makefile           |                 |                  |
-| Shake        | `node` DSL in Haskell        |                 |                  |
+| Build System | graph node                                       | graph edge      | graph inspection |
+| ------------ | ------------------------------------------------ | --------------- | ---------------- |
+| Sbt          | `TaskKey` assign/reassign                        | `taskKey.value` | `inspect`        |
+| Mill         | function def wrapped in`T{}`                     | function call   | mill `visualize` |
+| Make         | `targets` in Makefile's `targets: prerequisites` | `prerequisites` |                  |
+| Shake        | monadic block                                    | `want` function |                  |
 
 # References
 - [How mill works](https://www.lihaoyi.com/post/SoWhatsSoSpecialAboutTheMillScalaBuildTool.html)
+- [shake](https://shakebuild.com/manual)
