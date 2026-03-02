@@ -3,16 +3,20 @@ title = "build systems"
 weight = 1
 +++
 
-This article aims to be a mathematical(algebraic) introduction to build systems, and their design and implementation issues. This will be helpful for:
-- software developers who are frustrated by the complexity of many build systems
-- software engineers who is new to build systems, but is mathematically inclined so he wants to understand the theory first.
-- people who are interested in build systems and want to understand them from a theoretical perspective
+This article aims to be a mathematical, or algebraic introduction to build systems, and their design and implementation issues. This will be helpful for:
+- developers who are frustrated by the complexity of many build systems
+- engineers who are new to build systems, but are mathematically inclined so they want to understand the theory first.
 - theoretical computer scientists or math hobbyists who want to see the application of directed acyclic graphs.
 
 
-During the career of a software developer, you will encounter different build systems, and they are often a source of confusion and frustration, although they are usually not the focus of the project. Just to list a few build tools: Make, CMake, Bazel, Ninja, SBT, Mill, gradle, Maven, etc, Each has distinct features and requires learning when you switch between different software projects. 
+During the career of a software developer, you will encounter different build systems, and they are often a source of confusion and frustration, although they are usually not the focus of the project(which are usually the algorithms, data structures, or business logic). 
 
-Nowadays, as the software is becoming more complex, their build systems is getting more complex as well. So the obstacles of understanding the software project is not only the codebase itself, but also the build system that puts everything together. A while ago the Mill build system(written in Scala) sparked my interest(again) on how to understand build systems, so I decided to write this article to share my understanding as well as record my thoughts about build systems.
+Just to list a few build tools: Make, CMake, Bazel, Ninja, SBT, Mill, gradle, Maven, etc, Each has distinct features and has a learning curve that's not trivial to grasp.
+
+As the software is becoming more complex, their build systems is getting more complex as well. The obstacles of understanding the software project is not only the codebase itself, but also the build system, which puts everything together. 
+
+
+A while ago the Mill build system(written in Scala) sparked my interest(again) on how to understand build systems, so I decided to write this article to share my understanding,and record my thoughts as well, as I haven't found good resources on this topic theoretically.
 
 
 The core concepts of our discussion are:
@@ -23,25 +27,30 @@ The core concepts of our discussion are:
 
 
 ## Definition of build systems
-In general, a build system transforms the set of source files S into a set of target files T, so it's a function `b : S => T`. However, this is too abstract, and we discuss it in more details, so a build system mainly consists of:
+In general, a build system transforms the set of source files S into a set of target files T, so it's a function `b : S => T`. However, this is too abstract, and we shall discuss it in more details, so a build system mainly consists of:
 1. A way to represent the codebase. This is usually represented as directed acyclic graph(DAG) where the nodes are tasks and the edges are dependencies between the tasks. We denote this as `Graph`. This `Graph` also contains other information, and the build system should provide a way to construct this `Graph` from the source files `S`. 
-2. A mechanism to define, modify, and inspect the build/task graph. We denote the build graph as `Graph`, which is a directed acyclic graph(DAG). We let `Graph=(Nodes, Edges)`.
-3. A mechanism to parameterize the build graph so it's modular and reusable. This can be denoted via function abstraction `A => Graph`, where `A` is the parameter type and `Graph` is the build graph. This allows us to define a build graph template that can be instantiated with different parameters.
-4. A mechanism to represent the effect of executing the build graph, such as the input and output files, the environments, etc. For generality, we use `State` to represent the current state of the environment including all the input and output files, etc. 
+2. A mechanism to define, modify, and inspect the build/task graph.
+3. A mechanism to parameterize the build graph so it's modular and reusable. This can be denoted via function abstraction `A => Graph`, where `A` is the parameter type and `Graph` is the build graph. This allows us to define a build graph template that can be instantiated with different parameters. More details come later.
+4. A mechanism to represent the info and effect of executing the build graph, such as the input and output files, the environments, etc. For generality, we use `State` to represent the current state of the environment including all the input and output files, etc. 
 5. The execution engine to execute the build graph, Denote as `exec: Graph => State => (Graph, State)`, which takes a build graph and the current state, and produces a new build graph and a new state after execution.
 6. Practical features like caching, incremental build, parallel build, dependency management, etc. Those can think of as details of the execution engine `exec`.
 
-The second point is actually about designing a domain specific language(DSL) for users to write the build graph, and that's why there are so many different build systems, because they implement different DSLs(makefile,sbt file,etc) to construct the build graph. The third point is about how to make the build graph modular and reusable, which is important for large projects. The fourth point is about how to execute the build graph, which is also important for performance.
+Note that the above formulation is not unique, but it's relatively mathematical concise.
 
-In real world, the build system may also include many other features, such as dependency management, artifact publishing, etc. But we will focus on the core features of build systems in this article.
+We shall discuss more details of some points here. 
+The second point is actually about designing a domain specific language(DSL) for users to write the build graph, and that's why there are so many different build systems, because they implement different DSLs(makefile,sbt file,etc) to construct the build graph. 
+
+The third point is about how to make the build graph modular and reusable, which is important for large projects. The fourth point is about how to execute the build graph, which is also important for performance.
+
+In real world, the build system may also include many other features, such as dependency management, artifact publishing, etc. But we will focus on the core features of build systems in this article and skipping for now.
 
 
-To open the stage for the discussion, let's see a typical scenario.
+To open the stage for the discussion, let's see a typical scenario from the perspective of a user:
 A user defines the build graph using some DSL or API, depending on what they want. Then this build graph is transformed and enriched with more information, or combined with existing build graphs. Finally, the execution engine executes the build graph to produce the desired targets. Later, users may inspect the build graph to see what tasks are defined, what dependencies are there, etc. The user may also modify the build graph to add more tasks or change existing tasks, where the parameterization mechanism helps a lot.
 
 
 ### The build graph
-As mentioned above, the build graph(aka task graph) `Graph=(Nodes, Edges)` is a directed graph where the nodes are operations/tasks and the edges are dependencies between the operations. However, there is no ideal way to define the build graph, which contains extra information(operation, files, parameters, etc).
+As mentioned above, the build graph(aka task graph) `Graph=(Nodes, Edges)` is a directed graph where the nodes are operations/tasks and the edges are dependencies between the operations. However, there is no ideal way to define the build graph with extra information(operation, files, parameters, etc).
 
 One possible way is to formalize via functions:
 - A node in `Nodes` contains a unique identifier, a name(for readability), and an operation `op: State => State` that transforms the state of the environment.
@@ -52,35 +61,6 @@ Another way is to use a wrapper type `T[A]` for the nodes, where `A` is the type
 - `T[B]` might be `A=>T[B]`
 - 
 
-
-For example, if we want to build a collection of java source files into a jar file, we can define the build graph as follows:
-- each source file is contained in the information of the node
-- the edges are defined by the dependencies between the source files, such as which source file imports which other source file, etc.
-- the operation of each node is to compile the source file into a class file, and the operation of the final node is to package the class files into a jar file.
-
-The code for the example with method 1 can be like this:
-```scala
-val sourceFile1: Node = Node(id = "sourceFile1", name = "Source
-File 1", op = compileSourceFile("sourceFile1.java"))
-val sourceFile2: Node = Node(id = "sourceFile2", name = "Source
-File 2", op = compileSourceFile("sourceFile2.java"))
-val jarFile: Node = Node(id = "jarFile", name = "Jar File",
-op = packageJarFile(Set(sourceFile1, sourceFile2)))
-val edge1: Edge = Edge(sourceFile1, jarFile)
-val edge2: Edge = Edge(sourceFile2, jarFile)
-val graph: Graph = Graph(Nodes = Set(sourceFile1, sourceFile2, jar
-File), Edges = Set(edge1, edge2))
-```
-
-The code for the example with method 2 can be like this:
-```scala
-val sourceFile1: T[File] = T{ File("sourceFile1.java") }
-val sourceFile2: T[File] = T{ File("sourceFile2.java") }
-val jarFile: T[File] = T{ input => packageJarFile(Set(sourceFile1, sourceFile2)) }
-val edge1: Edge = sourceFile1 --> jarFile
-val edge2: Edge = sourceFile2 --> jarFile
-val graph: Graph = Graph(Nodes = Set(sourceFile1, sourceFile2, jarFile), Edges = Set(edge1, edge2))
-```
 
 ## practical issues
 Let's discuss some practical issues:
@@ -124,6 +104,37 @@ Using function calls with imperative style(like SBT):
 Using graph data structures:
 - the nodes and edges are explicitly defined. 
 - The inspection and modification of the build graph is straightforward via standard graph algorithms once the particular nodes and edges are identified. 
+
+Now let's see an example for an simple example of a build graph, and how to define it with the two methods above.
+For example, if we want to build a collection of java source files into a jar file, we can define the build graph as follows:
+- each source file is contained in the information of the node
+- the edges are defined by the dependencies between the source files, such as which source file imports which other source file, etc.
+- the operation of each node is to compile the source file into a class file, and the operation of the final node is to package the class files into a jar file.
+
+The code for the example with method 1 can be like this:
+```scala
+val sourceFile1: Node = Node(id = "sourceFile1", name = "Source
+File 1", op = compileSourceFile("sourceFile1.java"))
+val sourceFile2: Node = Node(id = "sourceFile2", name = "Source
+File 2", op = compileSourceFile("sourceFile2.java"))
+
+val jarFile: Node = Node(id = "jarFile", name = "Jar File",
+op = packageJarFile(Set(sourceFile1, sourceFile2)))
+val edge1: Edge = Edge(sourceFile1, jarFile)
+val edge2: Edge = Edge(sourceFile2, jarFile)
+val graph: Graph = Graph(Nodes = Set(sourceFile1, sourceFile2, jar
+File), Edges = Set(edge1, edge2))
+executeBuild(graph, initialState)
+```
+the above means that the `jarFile` node depends on both `sourceFile1` and `sourceFile2`, and to finish the build, we need to execute the operations of `sourceFile1` and `sourceFile2` first, and then execute the operation of `jarFile`.
+
+The code for the example with method 2 can be like this. It's similar to the first method, but we use the wrapper type `T[A]` to achieve parameterization and type safety, and the graph is defined via function calls implicitly.
+```scala
+val sourceFile1: T[File] = T{ File("sourceFile1.java") }
+val sourceFile2: T[File] = T{ File("sourceFile2.java") }
+val jarFile: T[File] = T{ input => packageJarFile(Set(sourceFile1, sourceFile2)) }
+executeBuild(jarFile, initialState)
+```
 
 ## An ideal build system
 Having discussed the implicit and explicit ways, we imagine an build system that is explicit but also has the flexibility of the implicit way:
