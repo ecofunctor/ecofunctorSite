@@ -45,50 +45,44 @@ To open the stage for the discussion, let's see a typical scenario from the pers
 A user defines the build graph using some DSL or API, depending on what they want. Then this build graph is transformed and enriched with more information, or combined with existing build graphs. Finally, the execution engine executes the build graph to produce the desired targets. Later, users may inspect the build graph to see what tasks are defined, what dependencies are there, etc. The user may also modify the build graph to add more tasks or change existing tasks, where the parameterization mechanism helps a lot.
 
 
-### The build graph, enriched
-As mentioned above, the build graph(aka task graph) `Graph=(Nodes, Edges)` is a directed graph where the nodes are operations/tasks and the edges are dependencies between the operations. However, there is no ideal way to define the build graph with extra information(operation, files, parameters, etc), particularly for nodes, and the edges usually just represent the dependencies thus don't need extra information. To illustrate the idea, we list some alternative ways, which may not be mutually exclusive.
+### node operations and edge creation
+As mentioned above, the build graph is just a DAG where the nodes are operations/tasks and the edges are dependencies between the operations. However, there is no ideal way to define the build graph with extra information(operation, files, parameters, etc), particularly for nodes, and the edges usually just represent the dependencies thus don't need extra information. To illustrate the idea, we list some possible ways, which may not be mutually exclusive.
+
+The discussion of extra information/operations on node is mixed with the edge creation, which is not ideal, but it's hard to separate them.
 
 
-**functional:** 
+**functional and explicit:**
 One possible way is to formalize the enrichment via functions:
 - A node in `Nodes` contains a unique identifier, a name(for readability), and an operation `op: State => State` that transforms the state of the environment.`op` can also be imperative, and merely typed as `op: Unit`. Basically, the node is a product type of the above information, and the node type is the same for all nodes.
-- If one node depends on output of another node, one method is a shared state or filesystem, but this is not ideal due to lack of modularity and type safety. 
+- edges are defined as the product type of the source and target nodes. 
+- The graph is defined as the product type of the set of nodes and the set of edges.
+- sharing information between nodes: If one node depends on output of another node, one method is a shared state or filesystem, but this is not ideal due to lack of modularity and type safety. Thus, all the information are stored in the `State`, which can be immutable.
+- To execute the graph, just execute the operations of the nodes with topological order. The `State` are passed between the nodes according to the order.
 
 
-**monadic:**
-Another way is to use a wrapper type `T[A]` for the nodes, where `A` is the type of the output, and `T[_]` adds more information. Now we shall think about monads, as the output of a node may be the input of another node, so another node may be typed as `A => T[B]`:
+**monadic and explcit:**
+Another way is to use a wrapper type `T[A]` for the nodes, where `A` is the type of the output, and `T[_]` adds more information. Now we shall think about monads:
+- a node may be typed as `A => T[B]`, as the output of a node may be the input of another node.
 - To keep the typing more consistent, we redefine the type of first node as `_ => T[A]`.
-- The edge function `edge: (A => T[B], B => T[C]) => A => T[C]` is the monadic composition.
+- The edge `edge: (A => T[B], B => T[C]) => A => T[C]` is the product type of the two nodes, and the operation of the edge may be the monadic composition, executing the first node to get the output and feed it to the second node to execute.
+- The graph is the product type of the nodes and the edges.
+- To execute the build graph, just execute the edges with topological order.
 
 
-**function calls:**
+**function calls and implicit edges:**
 The nodes are typed as `T[A]`, but the edges are implicitly defined by function calls:
 - If a node `n1` of type `T[A]` is called inside the operation of another node `n2` of type `T[B]`, then we can say that there is an edge from `n1` to `n2`
 - The output of `n1: T[A]` can be used inside the operation body of `n2: T[B]`, and the type system can help with the type safety. 
 
-## practical issues
-Let's discuss some practical issues:
- - Caching: to avoid rebuilding the same target
- - How to pass information between the nodes
- - Incremental build: to build only the changed targets
- - Parallel build: to build multiple targets in parallel
- - Dependency management: to manage the dependencies between the targets
-
-Some of them are answered by the build graph:
-- What tasks depends on what? use directed edges
-- Where do input files come from? just read from the file system
-- What needs to run in what order? topology sort
-- What can be parallelized and what can’t? topological sort
-
-Some issues are harder to answer:
-- How to pass information between the nodes, like the output of one node to the input of another node?
-- How to listen to events and do recompilation?
+This is actually the method used by Mill, sbt, and other build systems like Make and Shake, which has something like `want` function to say something is needed inside the operation body of a node, creating an edge implicitly from the needed node to the current node.
 
 
 # Implementation
 Constructing the build graph is a core feature of build systems, and it can be done in multiple ways, and we shall discuss some of them in detail. We categorize it into two ways:
 - implicitly, like via function calls, like Mill and SBT
 - explicitly via graph data structures(Makefile, Shake's DSL are this flavor)
+
+Now we discuss in more details, it may overlap with the previous discussion on the design of build systems. This part is more practical while the previous discussion is more theoretical.
 
 
 Using function calls(like Mill):
@@ -147,16 +141,24 @@ Having discussed the implicit and explicit ways, let's see a potential design of
 - split into multiple stages: graph construction, graph transformation, graph execution, so that we can have more control over the build process, and also make it easier to implement features like caching, incremental build, parallel build, etc.
 - utilize the concepts of graph for other features of the build system, such as caching, incremental build, parallel build, etc. For example, we can use the graph structure to determine which nodes need to be rebuilt when a source file changes, or which nodes can be executed in parallel.
 
-## Examples
-Some noteable build systems in functional flavor are:
-- [SBT](https://www.scala-sbt.org/): Scala's de facto build tool, imperative style using `TaskKey` to build the task graph
-- [Mill](https://www.lihaoyi.com/mill/): Mainly for Scala, more functional style using function calls to build the task graph
-- [Haskell's Shake](https://shakebuild.com/): a eDSL in Haskell that mimics Make but more powerful
+## practical issues
+Let's discuss some practical issues:
+ - Caching: to avoid rebuilding the same target
+ - How to pass information between the nodes
+ - Incremental build: to build only the changed targets
+ - Parallel build: to build multiple targets in parallel
+ - Dependency management: to manage the dependencies between the targets
 
-And some other popular build systems are:
-- [Make](https://www.gnu.org/software/make/): the classic build system using Makefiles, declare the build graph using `node`s in Makefiles
-- [Bazel](https://bazel.build/)
-- [Ninja](https://ninja-build.org/)
+Some of them are answered by the build graph:
+- What tasks depends on what? use directed edges
+- Where do input files come from? just read from the file system
+- What needs to run in what order? topology sort
+- What can be parallelized and what can’t? topological sort
+
+Some issues are harder to answer:
+- How to pass information between the nodes, like the output of one node to the input of another node?
+- How to listen to events and do recompilation?
+
 
 We sommarize the features of the build systems according to the core concepts:
 
@@ -168,5 +170,16 @@ We sommarize the features of the build systems according to the core concepts:
 | Shake        | monadic block                                    | `want` function |                  |
 
 # References
+Some noteable build systems in functional flavor are:
+- [SBT](https://www.scala-sbt.org/): Scala's de facto build tool, imperative style using `TaskKey` to build the task graph
+- [Mill](https://www.lihaoyi.com/mill/): Mainly for Scala, more functional style using function calls to build the task graph
+- [Haskell's Shake](https://shakebuild.com/): a eDSL in Haskell that mimics Make but more powerful
+
+And some other popular build systems are:
+- [Make](https://www.gnu.org/software/make/): the classic build system using Makefiles, declare the build graph using `node`s in Makefiles
+- [Bazel](https://bazel.build/)
+- [Ninja](https://ninja-build.org/)
+
+references for the theoretical side:
 - [How mill works](https://www.lihaoyi.com/post/SoWhatsSoSpecialAboutTheMillScalaBuildTool.html)
 - [shake](https://shakebuild.com/manual)
