@@ -102,6 +102,7 @@ jobs:
         with:
           path: ./public
   deploy:
+    # only run deploy on master branch
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

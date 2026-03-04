@@ -29,6 +29,11 @@ It's freely open for anyone to join, and currently the members are:
 Feel free to open PR to contribute to this site.
 {{< /tip >}}
 
+## Affiliation
+This project is affiliated with:
+- [Scala meetup](http://scala.ecofunctor.com/)
+- [ecofunctor practical](http://p.ecofunctor.com/): application of the theories in practice, like open source hardware, or even restaurants and coffee bars operated in a cooperative way.
+
 ## About this site
 This website is built with [Hugo](https://gohugo.io/), and deployed via github actions to github pages.
 
