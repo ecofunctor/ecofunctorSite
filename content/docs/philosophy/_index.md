@@ -1,5 +1,5 @@
 +++
-title = "Philosophy"
+title = "Philosophy and art"
 weight = 2
 +++
 

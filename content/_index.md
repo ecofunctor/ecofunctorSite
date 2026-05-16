@@ -4,7 +4,14 @@ title = "ecofunctor"
 
 ## About
 
-Ecofunctor is a research project for ecology, mathematics and computer science, and philosophy about public ownership, post-capitalism theories like Marxism, Anarchism, and Lacanian/Zizikian theory. The current capitalistic paradigm built on reductionism is gradually obsolete, boring and stagnant, due to over-emphasis on profit and efficiency, killing those creativity and diversity which are not market-profitable. To overcome this, the critical thinking skills shall be lifted to an unprecedented height, by removing the assumptions of privatization and profit maximization, and embracing the unknown. Mathematics, the essence of reductionism, will be used throught the project where suitable.
+The current capitalistic paradigm built on reductionism is gradually obsolete, boring and stagnant, due to over-emphasis on profit and efficiency, killing creativity and diversity which are not market-profitable. 
+To overcome the dilemma, the critical thinking skills as what we learned from current education system, is insufficient and shall be lifted to an unprecedented height, by removing the assumptions of privatization and profit maximization, and embracing the unknown. Mathematics, the essence of reductionism, will be used throught the project where formalism is needed.
+
+
+Ecofunctor is a research project hoping to find new interests, by exploring following topics:
+- ecology, ecosystem, complex systems and dynamical systems
+- mathematics and computer science
+- philosophy about public ownership, post-capitalism theories like Marxism, Anarchism, and Lacanian/Zizikian theory. 
 
 
 Currently the project is focusing on bringing the gap between normal audience and difficult topics in several fields, like abstract mathematics, computer science, and philosophy, with a wiki website for easy access and reading, and the mindset of mathematical rigor and clarity shall be adopted.
