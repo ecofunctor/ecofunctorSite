@@ -17,8 +17,63 @@ Thus, everything is relative, and absolute rationality is just a reductionist il
 
 In addition, the attempts in this article to analyze irrational philosophy is assisted by mathematics, a rational approach.
 
-## Preliminary
 
+## Zižek's enjoyment
+Here we discuss Zižek's book "Surplus Enjoyment", which mainly draws from Lacan's psychoanalysis.
+
+Some quotes from the book:
+- global capital itself is a gigantic virus
+- capitalism is more revolutionary than the traditional left, which is obsessed with protecting the old achievements of welfare state.
+- communist regimes is needed to protect captialism from neo-feudalism of corporatism
+- reducing man to just another object whose properties can be manipulated, what we lost is not only humanity, but nature itself, and there's no firm foundation, a place of retreat.
+- rich are rich also because poor are poor
+- value does not work unless most work is not valued
+- inverse correlation between public wealth and private richness
+- scientists' work are different from the laborers, as they were working for the opposite.
+- science has no memory, a fact a part of it's strength
+- we only know why we choose something after we have chosen it.
+- one of the most brutal forms of violence is that something we secretly desire is imposed on us from outside.
+- divergents are precisely "part of no-part", and workers are also "part of no-part", lacking a proper place.
+- Taliban's strict rules from Sharia law, is a product of modernity.
+- men are totally helpless when faced with "sexual provocation", that they are simply "unable to resist it", totally enslaved by their "sexual hunger".
+- public female eroticism in the West assumes that men are able to control their sexual desires
+- within existing system, providing free meals and housing is impossible.
+- law's directly prohibition is not the only way, it regulates the ways for how to break the law.
+- either nothing is forbidden, or everything is forbidden
+- without prohibitions, desire vanishes, so permissiveness kills desire
+
+### Summary and review of the book
+Žižek’s methodology is a unique intellectual triad that combines Lacanian psychoanalysis, Marxist political economy, and Hegelian dialectical materialism.
+
+
+Žižek argues that enjoyment is inherently excessive. We do not just look to satisfy a baseline need; rather, we derive a perverse pleasure from the formal detours, obstacles, and excesses of trying to reach that pleasure. This is what he calls "surplus enjoyment". The more obstacles and pains we endure in pursuit of our desires, the more we enjoy when we finally achieve them. 
+
+Objects that are surplus to our survival needs are unnecessary, yet they are structurally required. Without this meaningless excess, we are unable to identify or enjoy what is actually substantial and necessary. 
+
+Captalism, as opposed to previous political systems, encourages/forces us to pursue such "true self", usually in the form of consumerism, which is a never-ending process, thus creating a vicious cycle of surplus enjoyment, as individuals feel both oppressed and enjoyed.
+
+The Trap of Total Permissiveness: When authority tells you that you can do anything, it becomes impossible to rebel. True subversion requires a rule to break; without prohibitions, rebellion simply gets co-opted as a new consumer trend. Unlike the traditional regimes, which is explicitly oppressive, the neoliberal system doesn't explicitly oppress you, as implied by Zizek, but it atomizes the society, and makes you 
+feel free. The oppression is implicit: you are free to do anything, but you must find your true self, and you do it via consumerism.
+
+In psychoanalysis, the "Real" is something so traumatic and chaotic that the human mind cannot handle it directly. Žižek argues that we need a Matrix to shield us from the Real, so we don't go mad by confronting the Real, the ultimate emptiness hidden behind the facade of the world. The real is the void, the nothingness, the lack of meaning, and the ultimate source of anxiety. 
+
+An idea show up often in the book is that things comes not individually, but in pairs of opposites, like desire and enjoyment, freedom and oppression, prohibition and rebellion, restriction and desire, living and dead, dead and undead, eternal and freedom, etc. etc. Sometimes, the thing is defined by its opposite. The duality of things is a fundamental aspect of reality, or perhaps, the one fundamental law of reality is that everything is relative, and comes in pairs.
+
+## Schopenhauer's will
+This chapter focus on Schopenhauer's book "The World as Will and Representation".
+
+# Mathematical modeling
+## dynamic systems
+Now we have discussed the concepts, and let's try to model them via dynamic systems, a mathematic field that studies the behavior of complex systems. The ideas are:
+- The "will" are modelled as the driving force towards a specific attractor, which is equivalent to the "desire" in Zižek's book. The attractor can be a specific goal, or a state of being, that the individual is striving towards.
+- The realm of "will" is the private space of the individual, where the will can operate arbitrarily, and different will of different individuals disagree with each other in this private space. 
+- The "representation" is the public space, the shared reality, or the compromise between different wills, where the will is constrained by the social norms, laws, and the painful reality where the will is often frustrated. Different wills can interact, influence, negotiate, or be in conflict with each other in this public space, to form the new shared reality.
+- The "enjoyment" is modelled as the process of moving towards the attractor, which is the "surplus enjoyment" in Zižek's book. The enjoyment is not derived from the attainment of the goal itself, but rather from the process of striving towards it. Once the attractor is reached or stabilized, the enjoyment diminishes, and new attractors will create new desires to strive forward.
+
+## language systems
+We could also model the philosophical concepts via language systems, where all the limitations provides a syntax, and the freedom is the semantics, written in the syntax of such limitations. As Zizek implies, there's no freedom without limitations, just like there's no meaning without language syntax. The language system, by mandating a syntax, limits the possible expressions, but also provides the environment for the semantics to exist, as double edged sword.
+
+## Methodology
 ### Logic vs. Dialectics
 Dialectics, a philosophical method developed by Hegel and adopted by Marx and Engels, emphasizes the dynamic aspects, while classical logic emphasizes the static aspects, thus they are not necessarily contradictory, but rather expressing things at different levels(of complexity). The dialectical process involves the interaction of opposing forces, leading to the emergence of new forms and structures. This process is characterized by contradictions, negations, and syntheses, which drive the evolution of ideas and phenomena.
 
@@ -42,33 +97,3 @@ It seems that in each book of philosophy, there are always a long chain of logic
 Some basic assumptions shall be listed:
 - a language system restricts possible expressions, while it is providing freedom within the system.
 - any definition involves its opposite, e.g., rationality vs. irrationality, absolute vs relative.
-
-## Zižek's enjoyment
-Here we discuss Zižek's book "Surplus Enjoyment", which mainly draws from Lacan's psychoanalysis.
-
-Some quotes from the book:
-- global capital itself is a gigantic virus
-- capitalism is more revolutionary than the traditional left, which is obsessed with protecting the old achievements of welfare state.
-- communist regimes is needed to protect captialism from neo-feudalism of corporatism
-- reducing man to just another object whose properties can be manipulated, what we lost is not only humanity, but nature itself, and there's no firm foundation, a place of retreat.
-- rich are rich also because poor are poor
-- value does not work unless most work is not valued
-- inverse correlation between public wealth and private richness
-- scientists' work are different from the laborers, as they were working for the opposite.
-- science has no memory, a fact a part of it's strength
-
-### Summary and review of the book
-
-## Schopenhauer's will
-This chapter focus on Schopenhauer's book "The World as Will and Representation".
-
-# Mathematical modeling
-## dynamic systems
-Now we have discussed the concepts, and let's try to model them via dynamic systems, a mathematic field that studies the behavior of complex systems. The ideas are:
-- The "will" are modelled as the driving force towards a specific attractor, which is equivalent to the "desire" in Zižek's book. The attractor can be a specific goal, or a state of being, that the individual is striving towards.
-- The realm of "will" is the private space of the individual, where the will can operate arbitrarily, and different will of different individuals disagree with each other in this private space. 
-- The "representation" is the public space, the shared reality, or the compromise between different wills, where the will is constrained by the social norms, laws, and the painful reality where the will is often frustrated. Different wills can interact, influence, negotiate, or be in conflict with each other in this public space, to form the new shared reality.
-- The "enjoyment" is modelled as the process of moving towards the attractor, which is the "surplus enjoyment" in Zižek's book. The enjoyment is not derived from the attainment of the goal itself, but rather from the process of striving towards it. Once the attractor is reached or stabilized, the enjoyment diminishes, and new attractors will create new desires to strive forward.
-
-## language systems
-We could also model the philosophical concepts via language systems, where all the limitations provides a syntax, and the freedom is the semantics, written in the syntax of such limitations. As Zizek implies, there's no freedom without limitations, just like there's no meaning without language syntax. The language system, by mandating a syntax, limits the possible expressions, but also provides the environment for the semantics to exist, as double edged sword.
