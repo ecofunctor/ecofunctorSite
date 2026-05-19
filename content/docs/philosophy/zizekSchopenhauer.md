@@ -2,7 +2,9 @@
 title = "The will and enjoyment"
 weight = 1
 +++
-This article aims to explore from Schopenhauer's book "The World as Will and Representation" and Zižek's "Surplus Enjoyment", focusing on the concept of "will" and its relation to "desire" and "enjoyment". Seemingly different, these two concepts introduced in two books from different eras, actually share some commonalities:
+This article aims to explore from Schopenhauer's book "The World as Will and Representation" and Zižek's "Surplus Enjoyment", focusing on the concept of "will" and its relation to "desire" and "enjoyment". 
+
+Why these two books in one article? One primary reason is that both are irrationalist philosophers, rejecting the Enlightenment's emphasis on absolute rationality and reductionism. Other reasons include:
 - Both Schopenhauer and Zižek are sometimes considered as "pessimistic" philosophers, as they emphasize the emptiness of human life, However, both authors themselves reject this label, arguing that their superficial pessimism is actually a form of optimism, as it requires readers to double negate the reality to find their unique meanings.
 - Both authors are critical of the dominant worldview of their time, which is characterized by rationalism and reductionism. Schopenhauer critiques the Enlightenment's emphasis on reason and science, while Zižek critiques the neoliberal capitalist system. 
 - The difference of the two authors is that Schopenhauer is more abstract and metaphysical, while Zižek is more concrete on social and political issues. Schopenhauer argued that the fundamental nature of reality is not rational or ordered, but rather a blind, irrational, and striving force he called the "Will", While Zižek aligns more with the rationalist rather than rejecting rationality completely.
@@ -72,6 +74,8 @@ Now we have discussed the concepts, and let's try to model them via dynamic syst
 
 ## language systems
 We could also model the philosophical concepts via language systems, where all the limitations provides a syntax, and the freedom is the semantics, written in the syntax of such limitations. As Zizek implies, there's no freedom without limitations, just like there's no meaning without language syntax. The language system, by mandating a syntax, limits the possible expressions, but also provides the environment for the semantics to exist, as double edged sword.
+
+In the view of dynamic systems, Language is self-referential. Words are only defined by other words, just as variables in a complex differential equation depend on one another, and other words are defined by the first word, and so on, so the meaning of a word is not fixed, but rather emerges from the interactions of all the words in the system. The meaning also changes over time, as the system evolves and new words emerge. Thus, the meaning of a word is dynamic in at least two dimensions: spacially, as it depends on the context of other words, and temporally, as it changes over time.
 
 ## Methodology
 ### Logic vs. Dialectics
