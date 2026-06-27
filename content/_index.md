@@ -5,7 +5,7 @@ title = "ecofunctor"
 ## About
 
 The current capitalistic paradigm built on reductionism is gradually obsolete, boring and stagnant, due to over-emphasis on profit and efficiency, killing creativity and diversity which are not market-profitable. 
-To overcome the dilemma, the critical thinking skills as what we learned from current education system, is insufficient and shall be lifted to an unprecedented height, by removing the assumptions of privatization and profit maximization, and embracing the unknown. Mathematics, the essence of reductionism, will be used throught the project where formalism is needed.
+To overcome the dilemma, the critical thinking skills as what we learned from current education system, is insufficient and shall be lifted to an unprecedented height, by removing the assumptions of privatization and profit maximization, and embracing the unknown. Mathematics, the essence of reductionism, will be used throught the project where formalism is needed. As a precise language, we don't aim to be crystal accurate, but to avoid ambiguity and self-contradiction in discussions based on natural languages.
 
 
 Ecofunctor is a research project hoping to find new interests, by exploring following topics:
@@ -18,6 +18,13 @@ Currently the project is focusing on bringing the gap between normal audience an
 
 {{< tip >}}
 See [docs](./docs/) for several articles on the topics mentioned above.
+{{< /tip >}}
+
+
+In addition, the sister project [ecofunctor practical](http://p.ecofunctor.com/) is focusing on applying the theories to practice, like open source hardware, or even restaurants and coffee bars operated in a cooperative way.
+
+{{< tip >}}
+Visit [ecofunctor practical](http://p.ecofunctor.com/) for application of the theories in practice.
 {{< /tip >}}
 
 The purpose of this project could be anything but profit(setting the profitability as goal renders the project unnecessary):
@@ -38,10 +45,8 @@ Feel free to open PR to contribute to this site.
 
 ## Affiliation
 This project is affiliated with:
-- [Scala meetup](http://scala.ecofunctor.com/)
 - [ecofunctor practical](http://p.ecofunctor.com/): application of the theories in practice, like open source hardware, or even restaurants and coffee bars operated in a cooperative way.
+- [Scala meetup](http://scala.ecofunctor.com/)
 
 ## About this site
-This website is built with [Hugo](https://gohugo.io/), and deployed via github actions to github pages.
-
-The theme is a fork of [Compose](https://github.com/doofin/hugo-docs-theme), with customizations like mathjax support.
+This website is built with [Hugo](https://gohugo.io/), and deployed via github actions to github pages. The theme is a fork of [Compose](https://github.com/doofin/hugo-docs-theme).

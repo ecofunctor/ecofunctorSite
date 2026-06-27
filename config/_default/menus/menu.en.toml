@@ -9,6 +9,6 @@ url = "blog/"
 weight = 2
 
 [[main]]
-name = "Resources"
-url = "res/"
+name = "Practical"
+url = "https://p.ecofunctor.com/"
 weight = 3
