@@ -4,8 +4,9 @@ title = "ecofunctor"
 
 ## About
 
-The current capitalistic paradigm built on reductionism is gradually obsolete, boring and stagnant, due to over-emphasis on profit and efficiency, killing creativity and diversity which are not market-profitable. 
-To overcome the dilemma, the critical thinking skills as what we learned from current education system, is insufficient and shall be lifted to an unprecedented height, by removing the assumptions of privatization and profit maximization, and embracing the unknown. Mathematics, the essence of reductionism, will be used throught the project where formalism is needed. As a precise language, we don't aim to be crystal accurate, but to avoid ambiguity and self-contradiction in discussions based on natural languages.
+The current capitalistic paradigm built on reductionism is not obsolete, but thriving. However, humanity is reduced to minimalistic compare to capitalistic proliferation, and the human society marked by short-video, social media, and online shopping is becoming increasingly boring and stagnant, due to over-emphasis on profit and efficiency, killing creativity and diversity which are not market-profitable. The question never easily answered by attacking the capitalistic system, and this project aims to provide an answer.
+
+To overcome the dilemma, the critical thinking skills as what we learned from current education system, is insufficient and shall be lifted to unprecedented height, by removing the assumptions like privatization and profit maximization, to embrace the unknown. Mathematics, the essence of reductionism, will be used throught the project where formalism is needed. As a precise language, we don't aim to be crystal accurate, but to avoid ambiguity and self-contradiction in discussions based on natural languages.
 
 
 Ecofunctor is a research project hoping to find new interests, by exploring following topics:
