@@ -4,7 +4,7 @@
 The open source website for Ecofunctor, a research center for ecology, mathematics, computer science, and post-capitalism theories.
 
 
-please visit https://www.ecofunctor.com/
+please visit https://theory.ecofunctor.com/
 
 ## build locally
 This project uses [Hugo](https://gohugo.io/) as a static site generator. To build the website locally:
